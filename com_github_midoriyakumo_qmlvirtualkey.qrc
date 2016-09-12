@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/com/github/midoriyakumo/qmlvirtualkey">
+        <file>VirtualKey/VirtualKeys.qml</file>
+        <file>VirtualKey/VirtualPad.qml</file>
+        <file>VirtualKey/VirtualKey.qml</file>
+        <file>VirtualKey/RowKeys.qml</file>
+        <file>VirtualKey/Units.qml</file>
+        <file>VirtualKey/qmldir</file>
+        <file>VirtualKey/InputEventSource.qml</file>
+		<file>VirtualKey/GameButtons.qml</file>
+        <file>VirtualKey/utils.js</file>
+    </qresource>
+</RCC>

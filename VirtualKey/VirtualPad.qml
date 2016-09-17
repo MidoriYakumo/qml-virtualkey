@@ -8,7 +8,7 @@ import "."
 
 Canvas {
 	id: control
-	height: Units.dp * 64 * 3
+	height: Units.gu * 3
 	width: height
 
 	property Item target: parent.target
@@ -16,7 +16,7 @@ Canvas {
 
 	property bool deflectable: true
 	property bool pressed
-	property int repeatInterval: 33
+	property int repeatInterval: 40
 	property int direction
 	property int arrowSize: height/9
 	property int innerRadius: (height-arrowSize*6)/2
@@ -25,8 +25,45 @@ Canvas {
 
 	opacity: .7
 
+	state: "freeze"
+
+	states: [
+		State {
+			name: "freeze"
+			PropertyChanges {
+				target: repeatTrigger
+				running: false
+			}
+		},
+		State {
+			name: "press"
+			PropertyChanges {
+				target: repeatTrigger
+				running: true
+				onTriggered: mouse.key_press(control.direction)
+			}
+		},
+		State {
+			name: "release"
+			PropertyChanges {
+				target: repeatTrigger
+				running: true
+				onTriggered: {
+					mouse.key_release(mouse.directionToRelease)
+					mouse.directionToRelease = control.direction
+					control.state = control.pressed?"press":"freeze"
+				}
+			}
+		}
+	]
+
+
 	onPressedChanged: requestPaint()
-	onDirectionChanged: requestPaint()
+	onDirectionChanged: {
+		requestPaint()
+		if (mouse.directionToRelease !== direction)
+			state = "release"
+	}
 
 	onPaint: {
 		var ctx = getContext("2d")
@@ -97,25 +134,19 @@ Canvas {
 		id: mouse
 		anchors.fill: parent
 
-		property int posX: width/2
-		property int posY: height/2
+		property int directionToRelease: 0
 
 		function calcDirection(x, y) {
-			if (x === undefined) {
-				x = posX
-				y = posY
-			}
-
 			x -= width/2
 			y -= height/2
 
-			var dis = Math.sqrt(x*x+y*y)
+			var dis2 =x*x+y*y
 
-			if (dis<innerRadius || dis*2>height) {
+			if ((dis2<innerRadius*innerRadius) || (dis2*4>height*height)) {
 				return 0
 			}
 
-			if (deflectable) {
+			if (control.deflectable) {
 				if (Math.abs(x)>1.732*Math.abs(y))
 					if (x>0)
 						return 1 // right
@@ -140,65 +171,98 @@ Canvas {
 		}
 
 		onPressed: {
-			posX = mouseX
-			posY = mouseY
-			control.pressed = true
-			trigger.start()
-		}
-
-		onEntered: {
-			posX = mouseX
-			posY = mouseY
-			control.pressed = true
-			trigger.start()
+			control.pressed = ((mouse.x-width/2)*(mouse.x-width/2)+
+				(mouse.y-height/2)*(mouse.y-height/2))*4<=height*height
+			directionToRelease = calcDirection(mouse.x, mouse.y)
+			control.direction = directionToRelease
+			if (control.direction>0)
+				control.state = "press"
 		}
 
 		onPositionChanged: {
-			posX = mouseX
-			posY = mouseY
+			control.pressed = ((mouse.x-width/2)*(mouse.x-width/2)+
+				(mouse.y-height/2)*(mouse.y-height/2))*4<=height*height
+			control.direction = calcDirection(mouse.x, mouse.y)
 		}
 
 		onReleased: {
-			trigger.stop()
 			control.pressed = false
-			control.direction = 0
+			if (control.direction === 0)
+				control.state = "freeze"
+			else
+				control.direction = 0
 		}
 
-		onExited: {
-			trigger.stop()
-			control.pressed = false
-			control.direction = 0
-		}
-
-		Timer {
-			id: trigger
-			interval: control.repeatInterval
-			repeat: true
-
-			onTriggered: {
-				control.direction = mouse.calcDirection()
-				if (control.direction)
-					target.focus = true
+		function key_press(direction) {
+			// console.log("key_press", direction)
+			if (direction) {
+				target.focus = true
 				if (control.targetHandler) {
-					if (control.direction & 1)
-						control.targetHandler.rightPressed(InputEventSource.dummy)
-					if (control.direction & 2)
-						control.targetHandler.upPressed(InputEventSource.dummy)
-					if (control.direction & 4)
-						control.targetHandler.leftPressed(InputEventSource.dummy)
-					if (control.direction & 8)
-						control.targetHandler.downPressed(InputEventSource.dummy)
+					if (direction & 1)
+						control.targetHandler.rightPressed(InputEventSource.dummyKeyEvent)
+					if (direction & 2)
+						control.targetHandler.upPressed(InputEventSource.dummyKeyEvent)
+					if (direction & 4)
+						control.targetHandler.leftPressed(InputEventSource.dummyKeyEvent)
+					if (direction & 8)
+						control.targetHandler.downPressed(InputEventSource.dummyKeyEvent)
 				} else {
-					if (control.direction & 1)
+					if (direction & 1)
 						InputEventSource.keyPress(Qt.Key_Right, Qt.NoModifier, -1)
-					if (control.direction & 2)
+					if (direction & 2)
 						InputEventSource.keyPress(Qt.Key_Up, Qt.NoModifier, -1)
-					if (control.direction & 4)
+					if (direction & 4)
 						InputEventSource.keyPress(Qt.Key_Left, Qt.NoModifier, -1)
-					if (control.direction & 8)
+					if (direction & 8)
 						InputEventSource.keyPress(Qt.Key_Down, Qt.NoModifier, -1)
 				}
 			}
+		}
+
+		function key_release(direction) {
+			// console.log("key_release", direction)
+			if (direction) {
+				target.focus = true
+				if (control.targetHandler) {
+//					var event = {
+//						"key": Qt.Key_unknown,
+//						"modifiers": Qt.NoModifier,
+//						"text": ""
+//					}
+//					if (direction & 1){
+//						event.key = Qt.Key_Right
+//						control.targetHandler.onReleased(event)
+//					}
+//					if (direction & 2){
+//						event.key = Qt.Key_Up
+//						control.targetHandler.onReleased(event)
+//					}
+//					if (direction & 4) {
+//						event.key = Qt.Key_Left
+//						control.targetHandler.onReleased(event)
+//					}
+//					if (direction & 8) {
+//						event.key = Qt.Key_Down
+//						control.targetHandler.onReleased(event)
+//					}
+				} else {
+					if (direction & 1)
+						InputEventSource.keyRelease(Qt.Key_Right, Qt.NoModifier, -1)
+					if (direction & 2)
+						InputEventSource.keyRelease(Qt.Key_Up, Qt.NoModifier, -1)
+					if (direction & 4)
+						InputEventSource.keyRelease(Qt.Key_Left, Qt.NoModifier, -1)
+					if (direction & 8)
+						InputEventSource.keyRelease(Qt.Key_Down, Qt.NoModifier, -1)
+				}
+			}
+		}
+
+		Timer {
+			id: repeatTrigger
+			interval: repeat?control.repeatInterval:0
+			repeat: control.repeatInterval>0
+			triggeredOnStart: true
 		}
 	}
 
@@ -210,10 +274,10 @@ Canvas {
 		color: Qt.rgba(0,0,0,.2)
 		radius: control.Material.elevation * 3
 		spread: 0
-		horizontalOffset: control.direction?
+		horizontalOffset: control.pressed?
 			(mouse.width/2 - mouse.mouseX) * Units.dp * 48 / mouse.width:
 			0
-		verticalOffset: control.direction?
+		verticalOffset: control.pressed?
 			(mouse.height/2 - mouse.mouseY) * Units.dp * 48 / mouse.height:
 			0
 	}

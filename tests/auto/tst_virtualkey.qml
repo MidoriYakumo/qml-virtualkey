@@ -30,6 +30,7 @@ Column {
 		key: Qt.Key_Tab
 		target: root
 		targetHandler: null
+		repeatInterval: -1
 	}
 
 	Row {
@@ -42,6 +43,7 @@ Column {
 			text: "test"
 			target: null
 			targetHandler: null
+			repeatInterval: -1
 		}
 	}
 
@@ -132,10 +134,11 @@ Column {
 			verify(control)
 			control.target = text1
 			control.targetHandler = text2
+			control.repeatInterval = 1000
 			control.text = "A"
 			text1.text = ""
 			text2.text = ""
-			control.clicked()
+			mousePress(control)
 			compare(text1.text, "")
 			compare(text2.text, "Good job.")
 
@@ -163,9 +166,10 @@ Column {
 			control.target = text2
 			control.targetHandler = text2
 			control.text = "A"
+			control.repeatInterval = 1000
 			control.modifiers = Qt.ShiftModifier
 			text2.text = ""
-			control.clicked()
+			mousePress(control)
 			compare(text2.text, "Nice boat!")
 
 			control.destroy()

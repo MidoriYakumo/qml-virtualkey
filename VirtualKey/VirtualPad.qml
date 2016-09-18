@@ -49,7 +49,7 @@ Canvas {
 				target: repeatTrigger
 				running: true
 				onTriggered: {
-					mouse.key_release(mouse.directionToRelease)
+					mouse.key_release(mouse.directionToRelease & ~control.direction)
 					mouse.directionToRelease = control.direction
 					control.state = control.pressed?"press":"freeze"
 				}

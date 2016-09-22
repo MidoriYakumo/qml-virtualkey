@@ -52,7 +52,7 @@ Item  {
 		property alias modifiers: vkeys.modifiers
 
 		opacity: (vkeys.height-y)/height
-		// clip: true
+		clip: opacity > 0 && color.a > 0
 		color: Material.backgroundColor
 
 		property Item centerItem: Item { }

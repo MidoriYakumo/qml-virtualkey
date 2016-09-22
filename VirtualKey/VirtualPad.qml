@@ -272,13 +272,13 @@ Canvas {
 ////	}
 	layer.effect: DropShadow {
 		color: Qt.rgba(0,0,0,.2)
-		radius: control.Material.elevation * 3
+		radius: control.Material.elevation * Units.dp * 3
 		spread: 0
 		horizontalOffset: control.pressed?
-			-(mouse.width/2 - mouse.mouseX) * Units.dp * 48 / mouse.width:
+			-(mouse.width/2 - mouse.mouseX) * radius / mouse.width / 2:
 			0
 		verticalOffset: control.pressed?
-			-(mouse.height/2 - mouse.mouseY) * Units.dp * 48 / mouse.height:
+			-(mouse.height/2 - mouse.mouseY) * radius / mouse.height / 2:
 			0
 	}
 }

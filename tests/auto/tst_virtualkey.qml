@@ -1,4 +1,3 @@
-
 import QtQuick 2.7
 import QtTest 1.1
 import QtQuick.Controls 2.0

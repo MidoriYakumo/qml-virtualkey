@@ -275,10 +275,10 @@ Canvas {
 		radius: control.Material.elevation * 3
 		spread: 0
 		horizontalOffset: control.pressed?
-			(mouse.width/2 - mouse.mouseX) * Units.dp * 48 / mouse.width:
+			-(mouse.width/2 - mouse.mouseX) * Units.dp * 48 / mouse.width:
 			0
 		verticalOffset: control.pressed?
-			(mouse.height/2 - mouse.mouseY) * Units.dp * 48 / mouse.height:
+			-(mouse.height/2 - mouse.mouseY) * Units.dp * 48 / mouse.height:
 			0
 	}
 }

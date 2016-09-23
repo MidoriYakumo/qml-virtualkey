@@ -23,8 +23,6 @@ Canvas {
 
 	Material.elevation: pressed ? 8 : 2
 
-	opacity: .7
-
 	state: "freeze"
 
 	states: [
@@ -71,14 +69,14 @@ Canvas {
 		ctx.clearRect(0, 0, width, height)
 
 		ctx.beginPath()
-		ctx.arc(height/2, width/2, height/2, 0, 2 * Math.PI)
+		ctx.arc(width/2, height/2, height/2, 0, 2 * Math.PI)
 		ctx.fillStyle = pressed?control.Material.buttonPressColor:control.Material.buttonColor
 		ctx.fill()
 		ctx.closePath()
 
 
 		ctx.beginPath()
-		ctx.arc(height/2, width/2, innerRadius, 0, 2 * Math.PI)
+		ctx.arc(width/2, height/2, innerRadius, 0, 2 * Math.PI)
 		ctx.strokeStyle = control.Material.primaryTextColor
 		ctx.stroke()
 		ctx.closePath()
@@ -271,9 +269,9 @@ Canvas {
 ////		elevation: control.Material.elevation
 ////	}
 	layer.effect: DropShadow {
-		color: Qt.rgba(0,0,0,.2)
-		radius: control.Material.elevation * Units.dp * 3
-		spread: 0
+		color: Qt.rgba(0,0,0,.32)
+		radius: control.Material.elevation * 1.5
+		spread: control.Material.elevation * 0.02
 		horizontalOffset: control.pressed?
 			-(mouse.width/2 - mouse.mouseX) * radius / mouse.width / 2:
 			0

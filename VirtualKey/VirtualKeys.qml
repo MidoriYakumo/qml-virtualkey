@@ -72,6 +72,8 @@ Item  {
 		GameButtons {
 			id: gameButtons
 			visible: enableGameButtons
+			opacity: (overlay && parent.color.a===0)?.7:1.
+			height: Units.dp * 64 * 3
 			anchors.bottom: parent.bottom
 			anchors.right: parent.right
 			anchors.margins: Units.dp * 8

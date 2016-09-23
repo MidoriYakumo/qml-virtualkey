@@ -24,7 +24,7 @@ Rectangle {
 
 		property real speedX: 0
 		property real speedY: 0
-		property real speedR: speedX
+		property real speedR: speedX / Units.dp
 		property real bottomY: ground.y
 		property bool onTheGround: bottomY >= ground.y - .5
 
@@ -82,7 +82,7 @@ Rectangle {
 					player.bottomY = ground.y
 					player.speedY = 0
 				} else {
-					player.speedY += Units.gu / 5e3 * interval
+					player.speedY += Units.dp / 1e2 * interval
 				}
 			}
 
@@ -108,7 +108,6 @@ Rectangle {
 		case Qt.Key_Down:
 			if (!player.onTheGround) {
 				player.speedY = Units.dp * 19
-				player.speedR = 0
 				rotate.duration = 100
 				rotate.to = player.getNearest(45)
 				rotate.restart()

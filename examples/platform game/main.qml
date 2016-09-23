@@ -13,6 +13,7 @@ Window {
 
 	FocusScope {
 		id: root
+		focus: true
 		anchors.fill: parent
 		Root {
 			anchors.fill: parent

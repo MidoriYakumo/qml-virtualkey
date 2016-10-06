@@ -46,7 +46,7 @@ Canvas {
 
 		ctx.beginPath()
 		ctx.arc(width/6, height/2, buttonRadius, 0, 2 * Math.PI)
-		ctx.fillStyle = control.Material.buttonPressColor
+		ctx.fillStyle = yPressed?control.Material.buttonPressColor:control.Material.buttonColor
 		ctx.fill()
 		ctx.closePath()
 
@@ -76,5 +76,16 @@ Canvas {
 		ctx.fillStyle = control.Material.buttonPressColor
 		ctx.fill()
 		ctx.closePath()
+	}
+
+	MouseArea {
+		id: mouse
+
+		anchors.fill: parent
+	}
+
+	Timer {
+		id: repeatTrigger
+
 	}
 }

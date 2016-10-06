@@ -10,9 +10,11 @@ Canvas {
 	property real accY: -1
 
 	onYChanged: {
-		if (y+height/2>ground.y)
+		if (y>ground.y)
 			destroy()
 	}
+
+	opacity: (ground.y-y)*2/height-1
 
 	onPaint: {
 		var ctx = getContext("2d")

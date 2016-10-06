@@ -89,6 +89,8 @@ Rectangle {
 
 			if (!rotate.running)
 				player.rotation = (360 + player.rotation + player.speedR) % 360
+
+			chain.dirRight = player.speedR>0?true:player.speedR<0?false:chain.dirRight
 		}
 	}
 
@@ -144,6 +146,9 @@ Rectangle {
 					* (Math.random()>.5?1:-1)
 				axe.speedY = -Units.dp * 11
 				axe.accY = Units.dp / 1e2 * fs.interval
+			} else {
+				chain.ey = 0
+				attack.running = true
 			}
 
 			break
@@ -200,6 +205,43 @@ Rectangle {
 		id: axeComp
 		Axe {
 			width: player.width
+		}
+	}
+
+	Chain {
+		id: chain
+		man: player
+
+		property bool dirRight: true
+
+		SequentialAnimation {
+			id: attack
+			NumberAnimation {
+				target: chain
+				property: "ex"
+				from: 0
+				to: player.width * 2 * (chain.dirRight?1:-1)
+				duration: 200
+				easing.type: Easing.InOutQuad
+			}
+			ParallelAnimation {
+				NumberAnimation {
+					target: chain
+					property: "ex"
+					from: player.width * 2 * (chain.dirRight?1:-1)
+					to: 0
+					duration: 200
+					easing.type: Easing.InOutQuad
+				}
+				NumberAnimation {
+					target: chain
+					property: "ey"
+					from: 0
+					to: player.width / 3
+					duration: 200
+					easing.type: Easing.InOutQuad
+				}
+			}
 		}
 	}
 }

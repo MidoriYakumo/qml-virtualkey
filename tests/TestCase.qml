@@ -1064,6 +1064,8 @@ Item {
 	function mouseClick(item, x, y, button, modifiers, delay) {
 		if (!item)
 			qtest_fail("No item given to mouseClick", 1)
+		else
+			console.log("Click  :", item.objectName)
 
 		if (button === undefined)
 			button = Qt.LeftButton
@@ -1077,6 +1079,7 @@ Item {
 			y = item.height / 2
 		if (!qtest_events.mouseClick(item, x, y, button, modifiers, delay))
 			qtest_fail("window not shown", 2)
+		console.log("Clicked:", item.objectName)
 	}
 
 	/*!

@@ -27,7 +27,7 @@ Window {
 				id: lMouse
 				objectName: "lMouse"
 				anchors.fill: parent
-				onClicked: console.log("Left")
+				onClicked: console.log(objectName)
 			}
 		}
 
@@ -43,35 +43,41 @@ Window {
 				id: rMouse
 				objectName: "rMouse"
 				anchors.fill: parent
-				onClicked: {
-					console.log("Right")
-					timer.defer = function() {
-	//					t.mouseClick(rMouse)
-	//					t.mouseClick(lMouse)
-	//					t.mouseClick(lRect)
-	//					t.mouseClick(root)
-//						t.mouseClick(root, 1, 1)
-						t.mouseClick(window, 1, 1)
-					}
-					timer.start()
-				}
+				onClicked: console.log(objectName)
 			}
 		}
+	}
 
-		TestCase {
-			id: t
-		}
-
-		Timer {
-			id: timer
-
-			interval: 500
-
-			property var defer: function(){}
-
-			onTriggered: {
-				defer()
+	MouseArea {
+		id: wMouse
+		anchors.fill: parent
+		objectName: "wMouse"
+		onClicked: {
+			console.log(objectName)
+			timer.defer = function() {
+				t.mouseClick(lRect)
+				t.mouseClick(rMouse)
+				t.mouseClick(root)
+				wMouse.enabled = true
 			}
+			enabled = false
+			timer.start()
+		}
+	}
+
+	TestCase {
+		id: t
+	}
+
+	Timer {
+		id: timer
+
+		interval: 0
+
+		property var defer: function(){}
+
+		onTriggered: {
+			defer()
 		}
 	}
 

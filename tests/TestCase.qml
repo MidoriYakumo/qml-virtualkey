@@ -944,6 +944,8 @@ Item {
 	function mousePress(item, x, y, button, modifiers, delay) {
 		if (!item)
 			qtest_fail("No item given to mousePress", 1)
+		else
+			console.log("Press  :", item.objectName)
 
 		if (button === undefined)
 			button = Qt.LeftButton
@@ -957,6 +959,8 @@ Item {
 			y = item.height / 2
 		if (!qtest_events.mousePress(item, x, y, button, modifiers, delay))
 			qtest_fail("window not shown", 2)
+		else
+			console.log("Pressed:", item.objectName)
 	}
 
 	/*!
@@ -978,6 +982,8 @@ Item {
 	function mouseRelease(item, x, y, button, modifiers, delay) {
 		if (!item)
 			qtest_fail("No item given to mouseRelease", 1)
+		else
+			console.log("Release:", item.objectName)
 
 		if (button === undefined)
 			button = Qt.LeftButton
@@ -991,6 +997,8 @@ Item {
 			y = item.height / 2
 		if (!qtest_events.mouseRelease(item, x, y, button, modifiers, delay))
 			qtest_fail("window not shown", 2)
+		else
+			console.log("Rleased:", item.objectName)
 	}
 
 	/*!
@@ -1014,6 +1022,8 @@ Item {
 	function mouseDrag(item, x, y, dx, dy, button, modifiers, delay) {
 		if (!item)
 			qtest_fail("No item given to mouseDrag", 1)
+		else
+			console.log("Drag...:", item.objectName)
 
 		if (item.x === undefined || item.y === undefined)
 			return
@@ -1079,7 +1089,8 @@ Item {
 			y = item.height / 2
 		if (!qtest_events.mouseClick(item, x, y, button, modifiers, delay))
 			qtest_fail("window not shown", 2)
-		console.log("Clicked:", item.objectName)
+		else
+			console.log("Clicked:", item.objectName)
 	}
 
 	/*!
@@ -1101,6 +1112,8 @@ Item {
 	function mouseDoubleClick(item, x, y, button, modifiers, delay) {
 		if (!item)
 			qtest_fail("No item given to mouseDoubleClick", 1)
+		else
+			console.log("DClick :", item.objectName)
 
 		if (button === undefined)
 			button = Qt.LeftButton
@@ -1114,6 +1127,8 @@ Item {
 			y = item.height / 2
 		if (!qtest_events.mouseDoubleClick(item, x, y, button, modifiers, delay))
 			qtest_fail("window not shown", 2)
+		else
+			console.log("DClickd:", item.objectName)
 	}
 
 	/*!
@@ -1142,6 +1157,8 @@ Item {
 	function mouseDoubleClickSequence(item, x, y, button, modifiers, delay) {
 		if (!item)
 			qtest_fail("No item given to mouseDoubleClickSequence", 1)
+		else
+			console.log("DClickS:", item.objectName)
 
 		if (button === undefined)
 			button = Qt.LeftButton
@@ -1155,6 +1172,8 @@ Item {
 			y = item.height / 2
 		if (!qtest_events.mouseDoubleClickSequence(item, x, y, button, modifiers, delay))
 			qtest_fail("window not shown", 2)
+		else
+			console.log("DCliedS:", item.objectName)
 	}
 
 	/*!
@@ -1174,6 +1193,8 @@ Item {
 	function mouseMove(item, x, y, delay, buttons) {
 		if (!item)
 			qtest_fail("No item given to mouseMove", 1)
+		else
+			console.log("Move   :", item.objectName)
 
 		if (delay == undefined)
 			delay = -1
@@ -1181,6 +1202,8 @@ Item {
 			buttons = Qt.NoButton
 		if (!qtest_events.mouseMove(item, x, y, delay, buttons))
 			qtest_fail("window not shown", 2)
+		else
+			console.log("Moved  :", item.objectName)
 	}
 
 	/*!
@@ -1202,6 +1225,8 @@ Item {
 	function mouseWheel(item, x, y, xDelta, yDelta, buttons, modifiers, delay) {
 		if (!item)
 			qtest_fail("No item given to mouseWheel", 1)
+		else
+			console.log("Wheel  :", item.objectName)
 
 		if (delay == undefined)
 			delay = -1
@@ -1215,6 +1240,8 @@ Item {
 			yDelta = 0
 		if (!qtest_events.mouseWheel(item, x, y, buttons, modifiers, xDelta, yDelta, delay))
 			qtest_fail("window not shown", 2)
+		else
+			console.log("Wheeled:", item.objectName)
    }
 
 

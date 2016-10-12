@@ -3,7 +3,7 @@
 import QmlProject 1.1
 
 Project {
-	mainFile: "tests/multiEventTest.qml"
+	mainFile: "tests/multiPropTest.qml"
 
 	importPaths: "."
 	/* Include .qml, .js, and image files from current directory and subdirectories */

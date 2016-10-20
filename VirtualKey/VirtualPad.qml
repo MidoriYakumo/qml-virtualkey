@@ -15,13 +15,38 @@ Canvas {
 	property var targetHandler: parent.targetHandler
 
 	property bool deflectable: true
-	property bool pressed
 	property int repeatInterval: 40
-	property int direction
 	property int arrowSize: height/9
 	property int innerRadius: (height-arrowSize*6)/2
 
+	readonly property alias pressed		: d.pressed
+	readonly property alias direction	: d.direction
+
+	QtObject {
+		id: d
+
+		property bool pressed
+		property int direction
+		property int directionToRelease: 0
+	}
+
 	Material.elevation: pressed ? 8 : 2
+
+	layer.enabled: true //control.Material.buttonColor.a > 0
+////	layer.effect: ElevationEffect { // Not work ???
+////		elevation: control.Material.elevation
+////	}
+	layer.effect: DropShadow {
+		color: Qt.rgba(0,0,0,.32)
+		radius: control.Material.elevation * 1.5
+		spread: control.Material.elevation * 0.02
+		horizontalOffset: control.pressed?
+			-(mouse.width/2 - mouse.mouseX) * radius / mouse.width / 2:
+			0
+		verticalOffset: control.pressed?
+			-(mouse.height/2 - mouse.mouseY) * radius / mouse.height / 2:
+			0
+	}
 
 	state: "freeze"
 
@@ -47,8 +72,8 @@ Canvas {
 				target: repeatTrigger
 				running: true
 				onTriggered: {
-					mouse.key_release(mouse.directionToRelease & ~control.direction)
-					mouse.directionToRelease = control.direction
+					mouse.key_release(d.directionToRelease & ~control.direction)
+					d.directionToRelease = control.direction
 					control.state = control.pressed?"press":"freeze"
 				}
 			}
@@ -59,7 +84,7 @@ Canvas {
 	onPressedChanged: requestPaint()
 	onDirectionChanged: {
 		requestPaint()
-		if (mouse.directionToRelease !== direction)
+		if (d.directionToRelease !== direction)
 			state = "release"
 	}
 
@@ -132,8 +157,6 @@ Canvas {
 		id: mouse
 		anchors.fill: parent
 
-		property int directionToRelease: 0
-
 		function calcDirection(x, y) {
 			x -= width/2
 			y -= height/2
@@ -166,29 +189,6 @@ Canvas {
 				return 8 // down
 			else
 				return 2 // up
-		}
-
-		onPressed: {
-			control.pressed = ((mouse.x-width/2)*(mouse.x-width/2)+
-				(mouse.y-height/2)*(mouse.y-height/2))*4<=height*height
-			directionToRelease = calcDirection(mouse.x, mouse.y)
-			control.direction = directionToRelease
-			if (control.direction>0)
-				control.state = "press"
-		}
-
-		onPositionChanged: {
-			control.pressed = ((mouse.x-width/2)*(mouse.x-width/2)+
-				(mouse.y-height/2)*(mouse.y-height/2))*4<=height*height
-			control.direction = calcDirection(mouse.x, mouse.y)
-		}
-
-		onReleased: {
-			control.pressed = false
-			if (control.direction === 0)
-				control.state = "freeze"
-			else
-				control.direction = 0
 		}
 
 		function key_press(direction) {
@@ -256,27 +256,35 @@ Canvas {
 			}
 		}
 
-		Timer {
-			id: repeatTrigger
-			interval: repeat?control.repeatInterval:0
-			repeat: control.repeatInterval>0
-			triggeredOnStart: true
+		onPressed: {
+			d.pressed = ((mouse.x-width/2)*(mouse.x-width/2)+
+				(mouse.y-height/2)*(mouse.y-height/2))*4<=height*height
+			d.directionToRelease = calcDirection(mouse.x, mouse.y)
+			d.direction = d.directionToRelease
+			if (control.direction>0)
+				control.state = "press"
+		}
+
+		onPositionChanged: {
+			d.pressed = ((mouse.x-width/2)*(mouse.x-width/2)+
+				(mouse.y-height/2)*(mouse.y-height/2))*4<=height*height
+			d.direction = calcDirection(mouse.x, mouse.y)
+		}
+
+		onReleased: {
+			d.pressed = false
+			if (control.direction === 0)
+				control.state = "freeze"
+			else
+				d.direction = 0
 		}
 	}
 
-	layer.enabled: true //control.Material.buttonColor.a > 0
-////	layer.effect: ElevationEffect { // Not work ???
-////		elevation: control.Material.elevation
-////	}
-	layer.effect: DropShadow {
-		color: Qt.rgba(0,0,0,.32)
-		radius: control.Material.elevation * 1.5
-		spread: control.Material.elevation * 0.02
-		horizontalOffset: control.pressed?
-			-(mouse.width/2 - mouse.mouseX) * radius / mouse.width / 2:
-			0
-		verticalOffset: control.pressed?
-			-(mouse.height/2 - mouse.mouseY) * radius / mouse.height / 2:
-			0
+	Timer {
+		id: repeatTrigger
+		interval: repeat?control.repeatInterval:0
+		repeat: control.repeatInterval>0
+		triggeredOnStart: true
 	}
+
 }

@@ -1,3 +1,5 @@
+// Nintendo layout gamepad buttons
+
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
@@ -12,7 +14,7 @@ Item {
 	width: height
 
 	property Item target: parent.target
-	property var targetHandler: parent.targetHandler
+//	property var targetHandler: parent.targetHandler
 
 	property bool enableAB: true
 	property bool enableXY: true
@@ -39,6 +41,10 @@ Item {
 		property bool bPressed: keys&2
 		property bool xPressed: keys&4
 		property bool yPressed: keys&8
+
+		onKeysChanged: {
+			control.state = keys>0?"press":"release"
+		}
 	}
 	state: "freeze"
 
@@ -69,7 +75,8 @@ Item {
 				running: true
 				onTriggered: {
 					mouse.key_release(d.prevKeys)
-					control.state = mouse.pressed?"press":"freeze"
+					d.prevKeys = 0
+					control.state = "freeze"
 				}
 			}
 		}
@@ -91,8 +98,7 @@ Item {
 			var ctx = getContext("2d")
 			ctx.save()
 			ctx.clearRect(0, 0, width, height)
-			ctx.shadowColor = Qt.rgba(0,0,0,.24)
-			ctx.shadowBlur = buttonRadius * 0.5
+			ctx.shadowColor = Qt.rgba(0,0,0,.32)
 
 			ctx.beginPath()
 			ctx.moveTo(width/6 + dx, height/2 + dx)
@@ -104,19 +110,30 @@ Item {
 			ctx.fill()
 			ctx.closePath()
 
+//			ctx.shadowBlur = buttonRadius * 0.5 // terrible performance
+			ctx.shadowBlur = 4
+
 			ctx.beginPath()
-			ctx.arc(width/6, height/2, buttonRadius, 0, 2 * Math.PI)
+			ctx.arc(width/2, height/6, buttonRadius, 0, 2 * Math.PI)
 			ctx.fillStyle = xPressed?
 						Material.buttonPressColor:Material.buttonColor
 			ctx.fill()
 			ctx.closePath()
 
 			ctx.beginPath()
-			ctx.arc(width/2, height/6, buttonRadius, 0, 2 * Math.PI)
+			ctx.arc(width/6, height/2, buttonRadius, 0, 2 * Math.PI)
 			ctx.fillStyle = yPressed?
 						Material.buttonPressColor:Material.buttonColor
 			ctx.fill()
 			ctx.closePath()
+
+//			ctx.font = "12pt sans-serif"
+			ctx.font = "%1px sans-serif".arg(control.buttonRadius)
+			ctx.textAlign = "center"
+			ctx.textBaseline = "middle"
+			ctx.fillStyle = Material.foreground
+			ctx.fillText("X", width/2, height/6)
+			ctx.fillText("Y", width/6, height/2)
 
 			ctx.restore()
 		}
@@ -130,11 +147,11 @@ Item {
 			verticalOffset: -horizontalOffset
 		}
 
-		Behavior on Material.elevation {
-			NumberAnimation {
-				duration: 200
-			}
-		}
+//		Behavior on Material.elevation {
+//			NumberAnimation {
+//				duration: 200
+//			}
+//		}
 	}
 
 	Canvas {
@@ -148,8 +165,7 @@ Item {
 			var ctx = getContext("2d")
 			ctx.save()
 			ctx.clearRect(0, 0, width, height)
-			ctx.shadowColor = Qt.rgba(0,0,0,.24)
-			ctx.shadowBlur = buttonRadius * 0.5
+			ctx.shadowColor = Qt.rgba(0,0,0,.32)
 
 			ctx.beginPath()
 			ctx.moveTo(width*5/6 + dx, height/2 + dx)
@@ -161,19 +177,32 @@ Item {
 			ctx.fill()
 			ctx.closePath()
 
+//			ctx.shadowBlur = buttonRadius * 0.5
+			ctx.shadowBlur = 4
+
 			ctx.beginPath()
 			ctx.arc(width*5/6, height/2, buttonRadius, 0, 2 * Math.PI)
-			ctx.fillStyle = bPressed?
+			ctx.fillStyle = aPressed?
 						Material.buttonPressColor:Material.buttonColor
 			ctx.fill()
 			ctx.closePath()
 
 			ctx.beginPath()
 			ctx.arc(width/2, height*5/6, buttonRadius, 0, 2 * Math.PI)
-			ctx.fillStyle = aPressed?
+			ctx.fillStyle = bPressed?
 						Material.buttonPressColor:Material.buttonColor
 			ctx.fill()
 			ctx.closePath()
+
+			// ctx.font = "12pt sans-serif"
+			ctx.font = "%1px sans-serif".arg(control.buttonRadius)
+			ctx.textAlign = "center"
+			ctx.textBaseline = "middle"
+			ctx.fillStyle = Material.foreground
+			ctx.fillText("A", width*5/6, height/2)
+			ctx.fillText("B", width/2, height*5/6)
+
+			ctx.restore()
 		}
 
 		layer.enabled: true //control.Material.buttonColor.a > 0
@@ -185,11 +214,11 @@ Item {
 			verticalOffset: -horizontalOffset
 		}
 
-		Behavior on Material.elevation {
-			NumberAnimation {
-				duration: 200
-			}
-		}
+//		Behavior on Material.elevation {
+//			NumberAnimation {
+//				duration: 200
+//			}
+//		}
 	}
 
 	MouseArea {
@@ -206,15 +235,15 @@ Item {
 
 			var r = 0
 			var r2 = control.buttonRadius*control.buttonRadius
-			if (distance2(x, y, width/2, height*5/6) <= r2) {
+			if (distance2(x, y, width*5/6, height/2) <= r2) {
 				r = 1
-			} else if (distance2(x, y, width*5/6, height/2) <= r2) {
+			} else if (distance2(x, y, width/2, height*5/6) <= r2) {
 				r = 2
-			} else if (distance2(x, y, width/6, height/2) <= r2) {
-				r = 4
 			} else if (distance2(x, y, width/2, height/6) <= r2) {
+				r = 4
+			} else if (distance2(x, y, width/6, height/2) <= r2) {
 				r = 8
-			} else {
+			} else if (control.enableAB || control.enableXY){
 				var ds = control.buttonRadius*width*1.4142/3
 				var c0 = cross(x, y, width/2, height*5/6, width*5/6, height/2)
 				var c1 = cross(x, y, width*5/6, height/2, width/2, height/6)
@@ -222,13 +251,41 @@ Item {
 				var c3 = cross(x, y, width/6, height/2, width/2, height*5/6)
 
 				if (c1*c3>0) {
-					if (-ds<=c0 && c0 <= ds)
+					if (control.enableAB && -ds<=c0 && c0 <= ds)
 						r = 3
-					else if (-ds<=c2 && c2 <= ds)
+					else if (control.enableXY && -ds<=c2 && c2 <= ds)
 						r = 12
 				}
 			}
 			return r
+		}
+
+		function key_press(keys) {
+			if (keys) {
+				target.focus = true
+				if (keys & 1)
+					InputEventSource.keyPress(control.keyA, Qt.NoModifier, -1)
+				if (keys & 2)
+					InputEventSource.keyPress(control.keyB, Qt.NoModifier, -1)
+				if (keys & 4)
+					InputEventSource.keyPress(control.keyX, Qt.NoModifier, -1)
+				if (keys & 8)
+					InputEventSource.keyPress(control.keyY, Qt.NoModifier, -1)
+			}
+		}
+
+		function key_release(keys) {
+			if (keys) {
+				target.focus = true
+				if (keys & 1)
+					InputEventSource.keyRelease(control.keyA, Qt.NoModifier, -1)
+				if (keys & 2)
+					InputEventSource.keyRelease(control.keyB, Qt.NoModifier, -1)
+				if (keys & 4)
+					InputEventSource.keyRelease(control.keyX, Qt.NoModifier, -1)
+				if (keys & 8)
+					InputEventSource.keyRelease(control.keyY, Qt.NoModifier, -1)
+			}
 		}
 
 		onPressed: {

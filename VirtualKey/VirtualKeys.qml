@@ -78,7 +78,7 @@ Item  {
 			anchors.right: parent.right
 			anchors.margins: Units.dp * 8
 			target: vkeys.target
-			targetHandler: vkeys.targetHandler
+//			targetHandler: vkeys.targetHandler
 		}
 
 	}

@@ -102,13 +102,13 @@ Canvas {
 
 		ctx.beginPath()
 		ctx.arc(width/2, height/2, innerRadius, 0, 2 * Math.PI)
-		ctx.strokeStyle = control.Material.primaryTextColor
+		ctx.strokeStyle = control.Material.foreground
 		ctx.stroke()
 		ctx.closePath()
 
 		ctx.fillStyle = direction&4?
 					control.Material.primaryHighlightedTextColor:
-					control.Material.primaryTextColor
+					control.Material.foreground
 
 		ctx.beginPath()
 		ctx.moveTo(arrowSize, height/2)
@@ -119,7 +119,7 @@ Canvas {
 
 		ctx.fillStyle = direction&1?
 					control.Material.primaryHighlightedTextColor:
-					control.Material.primaryTextColor
+					control.Material.foreground
 
 		ctx.beginPath()
 		ctx.moveTo(width-arrowSize, height/2)
@@ -130,7 +130,7 @@ Canvas {
 
 		ctx.fillStyle = direction&2?
 					control.Material.primaryHighlightedTextColor:
-					control.Material.primaryTextColor
+					control.Material.foreground
 
 		ctx.beginPath()
 		ctx.moveTo(width/2, arrowSize)
@@ -141,7 +141,7 @@ Canvas {
 
 		ctx.fillStyle = direction&8?
 					control.Material.primaryHighlightedTextColor:
-					control.Material.primaryTextColor
+					control.Material.foreground
 
 		ctx.beginPath()
 		ctx.moveTo(width/2, height-arrowSize)

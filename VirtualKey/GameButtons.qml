@@ -18,7 +18,7 @@ Item {
 
 	property bool enableAB: true
 	property bool enableXY: true
-	property int repeatInterval: 40
+	property int repeatInterval: 0
 	property int buttonRadius: Units.gu * 1.4142 * 2 / 6
 
 	property int keyA: Qt.Key_Z
@@ -63,7 +63,11 @@ Item {
 				running: true
 				onTriggered: {
 					mouse.key_release(d.prevKeys & ~d.keys)
-					mouse.key_press(d.keys)
+					if (repeatInterval == 0) {
+						mouse.key_press(d.keys & ~d.prevKeys)
+						state = "freeze"
+					} else
+						mouse.key_press(d.keys)
 					d.prevKeys = d.keys
 				}
 			}
@@ -93,31 +97,43 @@ Item {
 
 		Material.elevation: 2 + (xPressed + yPressed) * 3
 
+		layer.enabled: true //control.Material.buttonColor.a > 0
+		layer.effect: DropShadow {
+			color: Qt.rgba(0,0,0,.24)
+			radius: buttonXY.Material.elevation * 1.5
+			spread: buttonXY.Material.elevation * 0.02
+			horizontalOffset: enableXY?(xPressed - yPressed)*radius/4:0
+			verticalOffset: -horizontalOffset
+		}
+
 		onPaint: {
 			var dx = buttonRadius * 0.7071
 			var ctx = getContext("2d")
 			ctx.save()
 			ctx.clearRect(0, 0, width, height)
-			ctx.shadowColor = Qt.rgba(0,0,0,.32)
 
-			ctx.beginPath()
-			ctx.moveTo(width/6 + dx, height/2 + dx)
-			ctx.lineTo(width/6 - dx, height/2 - dx)
-			ctx.lineTo(width/2 - dx, height/6 - dx)
-			ctx.lineTo(width/2 + dx, height/6 + dx)
-			ctx.fillStyle = (control.xPressed&&control.yPressed)?
-					Material.buttonPressColor:Material.buttonColor
-			ctx.fill()
-			ctx.closePath()
+			if (enableXY) {
+				ctx.beginPath()
+				ctx.moveTo(width/6 + dx, height/2 + dx)
+				ctx.lineTo(width/6 - dx, height/2 - dx)
+				ctx.lineTo(width/2 - dx, height/6 - dx)
+				ctx.lineTo(width/2 + dx, height/6 + dx)
+				ctx.fillStyle = (xPressed&&yPressed)?
+						Material.buttonPressColor:Material.buttonColor
+				ctx.fill()
+				ctx.closePath()
 
-//			ctx.shadowBlur = buttonRadius * 0.5 // terrible performance
-			ctx.shadowBlur = 4
+				// replaced terrible shadowblur to stroke
+				ctx.strokeStyle = Qt.rgba(0,0,0,.24)
+			}
 
 			ctx.beginPath()
 			ctx.arc(width/2, height/6, buttonRadius, 0, 2 * Math.PI)
 			ctx.fillStyle = xPressed?
 						Material.buttonPressColor:Material.buttonColor
 			ctx.fill()
+			if (enableXY&&!xPressed)
+				ctx.stroke()
 			ctx.closePath()
 
 			ctx.beginPath()
@@ -125,33 +141,20 @@ Item {
 			ctx.fillStyle = yPressed?
 						Material.buttonPressColor:Material.buttonColor
 			ctx.fill()
+			if (enableXY&&!yPressed)
+				ctx.stroke()
 			ctx.closePath()
 
 //			ctx.font = "12pt sans-serif"
-			ctx.font = "%1px sans-serif".arg(control.buttonRadius)
+			ctx.font = "%1px sans-serif".arg(buttonRadius)
 			ctx.textAlign = "center"
-			ctx.textBaseline = "middle"
+			ctx.textBaseline = "middle" // may higher the text wtf
 			ctx.fillStyle = Material.foreground
 			ctx.fillText("X", width/2, height/6)
 			ctx.fillText("Y", width/6, height/2)
 
 			ctx.restore()
 		}
-
-		layer.enabled: true //control.Material.buttonColor.a > 0
-		layer.effect: DropShadow {
-			color: Qt.rgba(0,0,0,.24)
-			radius: buttonXY.Material.elevation * 1.5
-			spread: buttonXY.Material.elevation * 0.02
-			horizontalOffset: (control.yPressed - control.xPressed)*radius/4
-			verticalOffset: -horizontalOffset
-		}
-
-//		Behavior on Material.elevation {
-//			NumberAnimation {
-//				duration: 200
-//			}
-//		}
 	}
 
 	Canvas {
@@ -160,6 +163,15 @@ Item {
 
 		Material.elevation: 2 + (aPressed + bPressed) * 3
 
+		layer.enabled: true //control.Material.buttonColor.a > 0
+		layer.effect: DropShadow {
+			color: Qt.rgba(0,0,0,.24)
+			radius: buttonAB.Material.elevation * 1.5
+			spread: buttonAB.Material.elevation * 0.02
+			horizontalOffset: enableAB?(aPressed - bPressed)*radius/4:0
+			verticalOffset: -horizontalOffset
+		}
+
 		onPaint: {
 			var dx = buttonRadius * 0.7071
 			var ctx = getContext("2d")
@@ -167,24 +179,31 @@ Item {
 			ctx.clearRect(0, 0, width, height)
 			ctx.shadowColor = Qt.rgba(0,0,0,.32)
 
-			ctx.beginPath()
-			ctx.moveTo(width*5/6 + dx, height/2 + dx)
-			ctx.lineTo(width*5/6 - dx, height/2 - dx)
-			ctx.lineTo(width/2 - dx, height*5/6 - dx)
-			ctx.lineTo(width/2 + dx, height*5/6 + dx)
-			ctx.fillStyle = (control.aPressed&&control.bPressed)?
-					Material.buttonPressColor:Material.buttonColor
-			ctx.fill()
-			ctx.closePath()
+			if (enableAB) {
+				ctx.beginPath()
+				ctx.moveTo(width*5/6 + dx, height/2 + dx)
+				ctx.lineTo(width*5/6 - dx, height/2 - dx)
+				ctx.lineTo(width/2 - dx, height*5/6 - dx)
+				ctx.lineTo(width/2 + dx, height*5/6 + dx)
+				ctx.fillStyle = (aPressed&&bPressed)?
+						Material.buttonPressColor:Material.buttonColor
+				ctx.fill()
+				ctx.closePath()
 
-//			ctx.shadowBlur = buttonRadius * 0.5
-			ctx.shadowBlur = 4
+				// ctx.shadowBlur = buttonRadius * 0.5
+				// ctx.shadowBlur = 4
+				// replaced terrible shadowblur to stroke
+				ctx.strokeStyle = Qt.rgba(0,0,0,.24)
+			}
+
 
 			ctx.beginPath()
 			ctx.arc(width*5/6, height/2, buttonRadius, 0, 2 * Math.PI)
 			ctx.fillStyle = aPressed?
 						Material.buttonPressColor:Material.buttonColor
 			ctx.fill()
+			if (enableAB&&!aPressed)
+				ctx.stroke()
 			ctx.closePath()
 
 			ctx.beginPath()
@@ -192,10 +211,12 @@ Item {
 			ctx.fillStyle = bPressed?
 						Material.buttonPressColor:Material.buttonColor
 			ctx.fill()
+			if (enableAB&&!bPressed)
+				ctx.stroke()
 			ctx.closePath()
 
 			// ctx.font = "12pt sans-serif"
-			ctx.font = "%1px sans-serif".arg(control.buttonRadius)
+			ctx.font = "%1px sans-serif".arg(buttonRadius)
 			ctx.textAlign = "center"
 			ctx.textBaseline = "middle"
 			ctx.fillStyle = Material.foreground
@@ -204,21 +225,6 @@ Item {
 
 			ctx.restore()
 		}
-
-		layer.enabled: true //control.Material.buttonColor.a > 0
-		layer.effect: DropShadow {
-			color: Qt.rgba(0,0,0,.24)
-			radius: buttonAB.Material.elevation * 1.5
-			spread: buttonAB.Material.elevation * 0.02
-			horizontalOffset: (control.aPressed - control.bPressed)*radius/4
-			verticalOffset: -horizontalOffset
-		}
-
-//		Behavior on Material.elevation {
-//			NumberAnimation {
-//				duration: 200
-//			}
-//		}
 	}
 
 	MouseArea {
@@ -234,7 +240,7 @@ Item {
 			}
 
 			var r = 0
-			var r2 = control.buttonRadius*control.buttonRadius
+			var r2 = buttonRadius*buttonRadius
 			if (distance2(x, y, width*5/6, height/2) <= r2) {
 				r = 1
 			} else if (distance2(x, y, width/2, height*5/6) <= r2) {
@@ -243,17 +249,17 @@ Item {
 				r = 4
 			} else if (distance2(x, y, width/6, height/2) <= r2) {
 				r = 8
-			} else if (control.enableAB || control.enableXY){
-				var ds = control.buttonRadius*width*1.4142/3
+			} else if (enableAB || enableXY){
+				var ds = buttonRadius*width*1.4142/3
 				var c0 = cross(x, y, width/2, height*5/6, width*5/6, height/2)
 				var c1 = cross(x, y, width*5/6, height/2, width/2, height/6)
 				var c2 = cross(x, y, width/2, height/6, width/6, height/2)
 				var c3 = cross(x, y, width/6, height/2, width/2, height*5/6)
 
 				if (c1*c3>0) {
-					if (control.enableAB && -ds<=c0 && c0 <= ds)
+					if (enableAB && -ds<=c0 && c0 <= ds)
 						r = 3
-					else if (control.enableXY && -ds<=c2 && c2 <= ds)
+					else if (enableXY && -ds<=c2 && c2 <= ds)
 						r = 12
 				}
 			}
@@ -264,13 +270,13 @@ Item {
 			if (keys) {
 				target.focus = true
 				if (keys & 1)
-					InputEventSource.keyPress(control.keyA, Qt.NoModifier, -1)
+					InputEventSource.keyPress(keyA, Qt.NoModifier, -1)
 				if (keys & 2)
-					InputEventSource.keyPress(control.keyB, Qt.NoModifier, -1)
+					InputEventSource.keyPress(keyB, Qt.NoModifier, -1)
 				if (keys & 4)
-					InputEventSource.keyPress(control.keyX, Qt.NoModifier, -1)
+					InputEventSource.keyPress(keyX, Qt.NoModifier, -1)
 				if (keys & 8)
-					InputEventSource.keyPress(control.keyY, Qt.NoModifier, -1)
+					InputEventSource.keyPress(keyY, Qt.NoModifier, -1)
 			}
 		}
 
@@ -278,13 +284,13 @@ Item {
 			if (keys) {
 				target.focus = true
 				if (keys & 1)
-					InputEventSource.keyRelease(control.keyA, Qt.NoModifier, -1)
+					InputEventSource.keyRelease(keyA, Qt.NoModifier, -1)
 				if (keys & 2)
-					InputEventSource.keyRelease(control.keyB, Qt.NoModifier, -1)
+					InputEventSource.keyRelease(keyB, Qt.NoModifier, -1)
 				if (keys & 4)
-					InputEventSource.keyRelease(control.keyX, Qt.NoModifier, -1)
+					InputEventSource.keyRelease(keyX, Qt.NoModifier, -1)
 				if (keys & 8)
-					InputEventSource.keyRelease(control.keyY, Qt.NoModifier, -1)
+					InputEventSource.keyRelease(keyY, Qt.NoModifier, -1)
 			}
 		}
 
@@ -303,8 +309,8 @@ Item {
 
 	Timer {
 		id: repeatTrigger
-		interval: repeat?control.repeatInterval:0
-		repeat: control.repeatInterval>0
+		interval: repeat?repeatInterval:0
+		repeat: repeatInterval>0
 		triggeredOnStart: true
 	}
 }

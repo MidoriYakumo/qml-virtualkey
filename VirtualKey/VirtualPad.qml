@@ -40,10 +40,10 @@ Canvas {
 		color: Qt.rgba(0,0,0,.32)
 		radius: control.Material.elevation * 1.5
 		spread: control.Material.elevation * 0.02
-		horizontalOffset: control.pressed?
+		horizontalOffset: pressed?
 			-(mouse.width/2 - mouse.mouseX) * radius / mouse.width / 2:
 			0
-		verticalOffset: control.pressed?
+		verticalOffset: pressed?
 			-(mouse.height/2 - mouse.mouseY) * radius / mouse.height / 2:
 			0
 	}
@@ -63,7 +63,7 @@ Canvas {
 			PropertyChanges {
 				target: repeatTrigger
 				running: true
-				onTriggered: mouse.key_press(control.direction)
+				onTriggered: mouse.key_press(direction)
 			}
 		},
 		State {
@@ -72,9 +72,9 @@ Canvas {
 				target: repeatTrigger
 				running: true
 				onTriggered: {
-					mouse.key_release(d.directionToRelease & ~control.direction)
-					d.directionToRelease = control.direction
-					control.state = control.pressed?"press":"freeze"
+					mouse.key_release(d.directionToRelease & ~direction)
+					d.directionToRelease = direction
+					state = pressed?"press":"freeze"
 				}
 			}
 		}
@@ -167,7 +167,7 @@ Canvas {
 				return 0
 			}
 
-			if (control.deflectable) {
+			if (deflectable) {
 				if (Math.abs(x)>1.732*Math.abs(y))
 					if (x>0)
 						return 1 // right
@@ -195,15 +195,15 @@ Canvas {
 			// console.log("key_press", direction)
 			if (direction) {
 				target.focus = true
-				if (control.targetHandler) {
+				if (targetHandler) {
 					if (direction & 1)
-						control.targetHandler.rightPressed(InputEventSource.dummyKeyEvent)
+						targetHandler.rightPressed(InputEventSource.dummyKeyEvent)
 					if (direction & 2)
-						control.targetHandler.upPressed(InputEventSource.dummyKeyEvent)
+						targetHandler.upPressed(InputEventSource.dummyKeyEvent)
 					if (direction & 4)
-						control.targetHandler.leftPressed(InputEventSource.dummyKeyEvent)
+						targetHandler.leftPressed(InputEventSource.dummyKeyEvent)
 					if (direction & 8)
-						control.targetHandler.downPressed(InputEventSource.dummyKeyEvent)
+						targetHandler.downPressed(InputEventSource.dummyKeyEvent)
 				} else {
 					if (direction & 1)
 						InputEventSource.keyPress(Qt.Key_Right, Qt.NoModifier, -1)
@@ -221,7 +221,7 @@ Canvas {
 			// console.log("key_release", direction)
 			if (direction) {
 				target.focus = true
-				if (control.targetHandler) {
+				if (targetHandler) {
 //					var event = {
 //						"key": Qt.Key_unknown,
 //						"modifiers": Qt.NoModifier,
@@ -229,19 +229,19 @@ Canvas {
 //					}
 //					if (direction & 1){
 //						event.key = Qt.Key_Right
-//						control.targetHandler.onReleased(event)
+//						targetHandler.onReleased(event)
 //					}
 //					if (direction & 2){
 //						event.key = Qt.Key_Up
-//						control.targetHandler.onReleased(event)
+//						targetHandler.onReleased(event)
 //					}
 //					if (direction & 4) {
 //						event.key = Qt.Key_Left
-//						control.targetHandler.onReleased(event)
+//						targetHandler.onReleased(event)
 //					}
 //					if (direction & 8) {
 //						event.key = Qt.Key_Down
-//						control.targetHandler.onReleased(event)
+//						targetHandler.onReleased(event)
 //					}
 				} else {
 					if (direction & 1)
@@ -261,7 +261,7 @@ Canvas {
 				(mouse.y-height/2)*(mouse.y-height/2))*4<=height*height
 			d.directionToRelease = calcDirection(mouse.x, mouse.y)
 			d.direction = d.directionToRelease
-			if (control.direction>0)
+			if (direction>0)
 				control.state = "press"
 		}
 
@@ -273,7 +273,7 @@ Canvas {
 
 		onReleased: {
 			d.pressed = false
-			if (control.direction === 0)
+			if (direction === 0)
 				control.state = "freeze"
 			else
 				d.direction = 0
@@ -282,8 +282,8 @@ Canvas {
 
 	Timer {
 		id: repeatTrigger
-		interval: repeat?control.repeatInterval:0
-		repeat: control.repeatInterval>0
+		interval: repeat?repeatInterval:0
+		repeat: repeatInterval>0
 		triggeredOnStart: true
 	}
 

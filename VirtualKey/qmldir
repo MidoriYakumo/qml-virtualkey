@@ -1,11 +1,14 @@
 module	com.github.midoriyakumo.qmlvirtualkey
 
 singleton	InputEventSource	1.0	InputEventSource.qml
-singleton	Units	1.0	Units.qml
+singleton	Units				1.0	Units.qml
 
+GameButtons				1.0	GameButtons.qml
+InputEventDefer			1.0	InputEventDefer.qml
+MutitouchDispatcher		1.0	MutitouchDispatcher.qml
+TouchVisualRipple		1.0	TouchVisualRipple.qml
 VirtualKey	1.0	VirtualKey.qml
 VirtualPad	1.0	VirtualPad.qml
-GameButtons	1.0	GameButtons.qml
 RowKeys		1.0	RowKeys.qml
 VirtualKeys	1.0	VirtualKeys.qml
 

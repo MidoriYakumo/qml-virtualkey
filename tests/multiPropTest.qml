@@ -3,6 +3,8 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
 
+import "../VirtualKey"
+
 Window {
 	id: window
 	objectName: "window"
@@ -99,131 +101,50 @@ Window {
 		}
 	}
 
-
-	MultiPointTouchArea {
-		id: input
-		anchors.fill: parent
-		objectName: "input"
-
-//		property var eventBlock: ({})
-		property var tpStore
-
-//		onCanceled: perform(touchPoints, event.mouseRelease, "crimson")
-		onPressed: perform(touchPoints, event.mousePress, "lime")
-		onReleased: perform(touchPoints, event.mouseRelease, "slateblue")
-//		onTouchUpdated: perform(touchPoints, event.mouseDoubleClick, "tomato")
-		onUpdated: perform(touchPoints, event.mousePress, "teal")
-
-		onEnabledChanged: {
-			console.log("input.enabled:", enabled)
-			if (enabled) {
-//				updateTouchData(touchPoints)
-//				console.log(touchPoints.length) // == 0
-//				for (var i in tpStore) {
-//					console.log(tpStore[i].x)
-//					var tpi = tp.createObject(input)
-//					tpStore[i] = tpi
-//					console.log(tpStore[i].x, tpi)
-//				}
-//				touchPoints = tpStore
-//				console.log(tpStore, touchPoints)
-			}
-		}
-
-		function perform(touchPoints, e, color) {
-//			if (eventBlock[e.name])
-//				return;
-//			eventBlock[e.name] = true
-			console.log(e.name, color)
-			console.log(touchPoints)
-			tpStore = []
-			for (var i in touchPoints) {
-				var p = touchPoints[i]
-				var t = ({})
-				for (var q in p)
-					t[q] = p[q]
-				tpStore.push(t)
-				var r = ripple.createObject(window)
-				r.cx = p.x
-				r.cy = p.y
-				r.color = color
-
-				defer.queue.push({
-					x:p.x, y:p.y,
-					act: function(){
-						e(root, this.x, this.y)
-					}
-				})
-			}
-
-			enabled = false
-			defer.start()
-		}
-
-		Component {
-			id: tp
-
-			TouchPoint { }
-		}
-
+	MutitouchDispatcher {
+		enableVisualRipple: true
 	}
 
-	TestCase {
-		id: event
-	}
+//	MultiPointTouchArea {
+//		id: touch
+//		anchors.fill: parent
+//		objectName: "input"
 
-	Timer {
-		id: defer
+////		onCanceled: perform(touchPoints, event.mouseRelease, "crimson")
+//		onPressed: perform(touchPoints, InputEventSource.mousePress, "lime")
+//		onReleased: perform(touchPoints, InputEventSource.mouseRelease, "slateblue")
+////		onTouchUpdated: perform(touchPoints, InputEventSource.mouseDoubleClick, "tomato")
+//		onUpdated: perform(touchPoints, InputEventSource.mousePress, "teal")
 
-		interval: 100
+//		onEnabledChanged: {
+//			console.log("input.enabled:", enabled)
+//		}
 
-		property var queue: []
+//		function perform(touchPoints, e, color) {
+//			console.log(e.name, color)
+//			console.log(touchPoints)
+//			for (var i in touchPoints) {
+//				var p = touchPoints[i]
+//				var r = ripple.create(p.x, p.y, window, color)
 
-		onTriggered: {
-			var i = 0
-			while (queue.length) {
-				var q = queue.shift()
-				console.log(i++, q.x, q.y)
-				q.act()
-			}
-			input.enabled = true
-//			for (var e in input.eventBlock) {
-//				input.eventBlock[e] = false
+//				defer.push({
+//					x:p.x, y:p.y,
+//					act: function(){
+//						e(root, this.x, this.y, Qt.LeftButton, Qt.NoModifier, -1)
+//					}
+//				})
 //			}
-		}
-	}
 
-	Component {
-		id: ripple
+//			defer.start()
+//		}
 
-		Rectangle {
-			property int cx
-			property int cy
-			property int size: 64
+//		TouchVisualRipple {
+//			id: ripple
+//		}
 
-			width: 1
-			height: width
-			radius: width
-			x: cx-width/2
-			y: cy-height/2
-			opacity: (1-(width/size))*.7
-			color: "skyblue"
-
-			Behavior on width {
-				NumberAnimation {
-					duration: 1000
-				}
-			}
-
-			onOpacityChanged: {
-				if (opacity <= 0)
-					destroy()
-			}
-
-			Component.onCompleted: {
-				width = size + 1
-			}
-		}
-	}
-
+//		InputEventDefer {
+//			id: defer
+//			input: touch
+//		}
+//	}
 }

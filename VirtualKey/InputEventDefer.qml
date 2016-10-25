@@ -7,7 +7,7 @@ import QtQuick 2.7
 Item {
 	id: defer
 
-	property Item input
+	property Item input: parent
 
 	signal finished()
 
@@ -24,6 +24,7 @@ Item {
 		repeat: false
 
 		onTriggered: {
+			input.enabled = false
 			while (d.queue.length) {
 				var event = d.queue.shift()
 				event.act()
@@ -41,7 +42,6 @@ Item {
 	}
 
 	function start(){
-		input.enabled = false
 		timer.start()
 	}
 }

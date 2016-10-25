@@ -12,7 +12,7 @@ Item {
 
 			property int cx: 1
 			property int cy: 1
-			property int size: Units.gu * 2
+			property int size: Units.gu// * 2
 			property int duration: 1000
 
 			width: 1

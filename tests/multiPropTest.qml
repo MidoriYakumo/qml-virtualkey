@@ -5,7 +5,7 @@ import QtQuick.Window 2.0
 
 import "../VirtualKey"
 
-Window {
+Item {
 	id: window
 	objectName: "window"
 	height: 600
@@ -102,49 +102,8 @@ Window {
 	}
 
 	MutitouchDispatcher {
+		enableDragSimulate: true
 		enableVisualRipple: true
 	}
 
-//	MultiPointTouchArea {
-//		id: touch
-//		anchors.fill: parent
-//		objectName: "input"
-
-////		onCanceled: perform(touchPoints, event.mouseRelease, "crimson")
-//		onPressed: perform(touchPoints, InputEventSource.mousePress, "lime")
-//		onReleased: perform(touchPoints, InputEventSource.mouseRelease, "slateblue")
-////		onTouchUpdated: perform(touchPoints, InputEventSource.mouseDoubleClick, "tomato")
-//		onUpdated: perform(touchPoints, InputEventSource.mousePress, "teal")
-
-//		onEnabledChanged: {
-//			console.log("input.enabled:", enabled)
-//		}
-
-//		function perform(touchPoints, e, color) {
-//			console.log(e.name, color)
-//			console.log(touchPoints)
-//			for (var i in touchPoints) {
-//				var p = touchPoints[i]
-//				var r = ripple.create(p.x, p.y, window, color)
-
-//				defer.push({
-//					x:p.x, y:p.y,
-//					act: function(){
-//						e(root, this.x, this.y, Qt.LeftButton, Qt.NoModifier, -1)
-//					}
-//				})
-//			}
-
-//			defer.start()
-//		}
-
-//		TouchVisualRipple {
-//			id: ripple
-//		}
-
-//		InputEventDefer {
-//			id: defer
-//			input: touch
-//		}
-//	}
 }

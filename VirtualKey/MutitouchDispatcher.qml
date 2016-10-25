@@ -17,7 +17,6 @@ MultiPointTouchArea {
 
 	InputEventDefer {
 		id: defer
-		input: touch
 	}
 
 	onPressed: {

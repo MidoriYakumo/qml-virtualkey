@@ -18,6 +18,7 @@ Item  {
 	property bool overlay: true
 	property bool enablePad: true
 	property bool enableGameButtons: true
+	property bool enableMultitouch: enablePad || enableGameButtons
 	property alias color: controls.color
 
 	property int modifiers
@@ -81,6 +82,11 @@ Item  {
 //			targetHandler: vkeys.targetHandler
 		}
 
+		MutitouchDispatcher { // still buggy, enable visualize for debug
+			enabled: enableMultitouch
+			target: parent
+			touchVisualize: true
+		}
 	}
 
 	onActiveChanged:

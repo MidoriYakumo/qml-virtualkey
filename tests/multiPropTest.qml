@@ -102,8 +102,9 @@ Item {
 	}
 
 	MutitouchDispatcher {
-		enableDragSimulate: true
-		enableVisualRipple: true
+		stickAndDrag: false
+		simulateDrag: true
+		touchVisualize: true
 	}
 
 }

@@ -8,6 +8,7 @@ Item {
 	id: defer
 
 	property Item input: parent
+	property bool pauseInput: true
 
 	signal finished()
 
@@ -24,12 +25,14 @@ Item {
 		repeat: false
 
 		onTriggered: {
-			input.enabled = false
+			if (pauseInput)
+				input.enabled = false
 			while (d.queue.length) {
 				var event = d.queue.shift()
 				event.act()
 			}
-			input.enabled = true
+			if (pauseInput)
+				input.enabled = true
 			defer.finished()
 		}
 	}

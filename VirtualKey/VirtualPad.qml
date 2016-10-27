@@ -153,9 +153,14 @@ Canvas {
 		ctx.restore()
 	}
 
-	MouseArea {
+//	MouseArea {
+	MultiPointTouchArea {
 		id: mouse
 		anchors.fill: parent
+		maximumTouchPoints: 1
+
+		property int mouseX
+		property int mouseY
 
 		function calcDirection(x, y) {
 			x -= width/2
@@ -257,18 +262,25 @@ Canvas {
 		}
 
 		onPressed: {
-			d.pressed = ((mouse.x-width/2)*(mouse.x-width/2)+
-				(mouse.y-height/2)*(mouse.y-height/2))*4<=height*height
-			d.directionToRelease = calcDirection(mouse.x, mouse.y)
+			var p = touchPoints[0]
+			mouseX = p.x
+			mouseY = p.y
+			d.pressed = ((p.x-width/2)*(p.x-width/2)+
+				(p.y-height/2)*(p.y-height/2))*4<=height*height
+			d.directionToRelease = calcDirection(p.x, p.y)
 			d.direction = d.directionToRelease
 			if (direction>0)
 				control.state = "press"
 		}
 
-		onPositionChanged: {
-			d.pressed = ((mouse.x-width/2)*(mouse.x-width/2)+
-				(mouse.y-height/2)*(mouse.y-height/2))*4<=height*height
-			d.direction = calcDirection(mouse.x, mouse.y)
+//		onPositionChanged: {
+		onUpdated: {
+			var p = touchPoints[0]
+			mouseX = p.x
+			mouseY = p.y
+			d.pressed = ((p.x-width/2)*(p.x-width/2)+
+				(p.y-height/2)*(p.y-height/2))*4<=height*height
+			d.direction = calcDirection(p.x, p.y)
 		}
 
 		onReleased: {

@@ -227,9 +227,11 @@ Item {
 		}
 	}
 
-	MouseArea {
+//	MouseArea {
+	MultiPointTouchArea {
 		id: mouse
 		anchors.fill: parent
+		maximumTouchPoints: 1
 
 		function calcKeys(x, y) {
 			function distance2(x0, y0, x1, y1) {
@@ -295,11 +297,14 @@ Item {
 		}
 
 		onPressed: {
-			d.keys = calcKeys(mouseX, mouseY)
+			var p = touchPoints[0]
+			d.keys = calcKeys(p.x, p.y)
 		}
 
-		onPositionChanged: {
-			d.keys = calcKeys(mouseX, mouseY)
+//		onPositionChanged: {
+		onUpdated: {
+			var p = touchPoints[0]
+			d.keys = calcKeys(p.x, p.y)
 		}
 
 		onReleased: {

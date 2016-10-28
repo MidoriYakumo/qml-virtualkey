@@ -7,10 +7,10 @@
   },
   "repository": {
     "type": "GITHUB",
-    "url": "git@github.com:MidoriYakumo/qmlvirtualkey.git"
+    "url": "git@github.com:MidoriYakumo/qml-virtualkey.git"
   },
   "version": {
-    "label": "0.0.1",
+    "label": "0.1.0",
     "revision": "",
     "fingerprint": ""
   },

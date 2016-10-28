@@ -1,4 +1,4 @@
-# qmlvirtualkey
+# qml-virtualkey
 Pure QML in-app virtual key/keyboard/pad
 
 ##[VirtualKey](./VirtualKey/VirtualKey.qml)
@@ -8,7 +8,7 @@ Pure QML in-app virtual key/keyboard/pad
 ![](./examples/platform_game/ss.png)
 
 ##[VirtualKeyboard](./VirtualKey/VirtualKeyboard.qml)
-![](./examples/simple/ss.png)
+![](./examples/textinput/ss.png)
 
-##[Multipoint To MouseArea](./VirtualKey/MutitouchDispatcher.qml)
+##[Multitouch MouseArea](./VirtualKey/MutitouchDispatcher.qml)
 ![](./examples/multidrag/ss.png)

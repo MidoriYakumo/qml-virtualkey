@@ -15,6 +15,8 @@ Button {
 	property int repeatDelay: 600
 	property int repeatInterval: 40
 
+	width: 0
+
 	focusPolicy: Qt.NoFocus
 
 	states: [
@@ -166,6 +168,7 @@ Button {
 
 	Component.onCompleted: { // minimal size
 		height = contentItem.height + topPadding + bottomPadding
-		width = contentItem.paintedWidth + leftPadding + rightPadding
+		if (width === 0)
+			width = contentItem.paintedWidth + leftPadding + rightPadding
 	}
 }

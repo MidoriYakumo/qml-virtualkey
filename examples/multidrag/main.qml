@@ -3,13 +3,13 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
 
-import "VirtualKey"
-//import VirtualKey 1.0
+import VirtualKey 1.0
 
 Item {
 	id: window
 	objectName: "window"
-	anchors.fill: parent
+	width: 800
+	height: 600
 
 	Column {
 		id: root

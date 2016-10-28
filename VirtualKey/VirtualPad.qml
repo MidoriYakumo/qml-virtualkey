@@ -159,8 +159,8 @@ Canvas {
 		anchors.fill: parent
 		maximumTouchPoints: 1
 
-		property int mouseX
-		property int mouseY
+		property real mouseX
+		property real mouseY
 
 		function calcDirection(x, y) {
 			x -= width/2
@@ -265,9 +265,9 @@ Canvas {
 			var p = touchPoints[0]
 			mouseX = p.x
 			mouseY = p.y
-			d.pressed = ((p.x-width/2)*(p.x-width/2)+
-				(p.y-height/2)*(p.y-height/2))*4<=height*height
-			d.directionToRelease = calcDirection(p.x, p.y)
+			d.pressed = ((mouseX-width/2)*(mouseX-width/2)+
+				(mouseY-height/2)*(mouseY-height/2))*4<=height*height
+			d.directionToRelease = calcDirection(mouseX, mouseY)
 			d.direction = d.directionToRelease
 			if (direction>0)
 				control.state = "press"
@@ -278,9 +278,9 @@ Canvas {
 			var p = touchPoints[0]
 			mouseX = p.x
 			mouseY = p.y
-			d.pressed = ((p.x-width/2)*(p.x-width/2)+
-				(p.y-height/2)*(p.y-height/2))*4<=height*height
-			d.direction = calcDirection(p.x, p.y)
+			d.pressed = ((mouseX-width/2)*(mouseX-width/2)+
+				(mouseY-height/2)*(mouseY-height/2))*4<=height*height
+			d.direction = calcDirection(mouseX, mouseY)
 		}
 
 		onReleased: {

@@ -125,6 +125,7 @@ Item {
 
 				// replaced terrible shadowblur to stroke
 				ctx.strokeStyle = Qt.rgba(0,0,0,.24)
+				ctx.lineWidth = 2
 			}
 
 			ctx.beginPath()
@@ -194,6 +195,7 @@ Item {
 				// ctx.shadowBlur = 4
 				// replaced terrible shadowblur to stroke
 				ctx.strokeStyle = Qt.rgba(0,0,0,.24)
+				ctx.lineWidth = 2
 			}
 
 

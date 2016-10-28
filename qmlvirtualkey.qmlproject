@@ -4,7 +4,6 @@ import QmlProject 1.1
 
 Project {
 	mainFile: "examples/platform_game/main.qml"
-//	mainFile: "tests/multiPropTest.qml"
 
 	importPaths: "."
 	/* Include .qml, .js, and image files from current directory and subdirectories */

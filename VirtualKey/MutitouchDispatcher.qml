@@ -11,11 +11,11 @@ MultiPointTouchArea {
 	property Item target: parent
 	// enable for faster response but stick and drag while moving
 	property bool stickAndDrag: !mouseEnabled
-	// perform drag on each point
+	// perform drag on each point (multidrag)
 	property bool simulateDrag: false
-	// perform drag on each point
+	// less drag event
 	property bool accumulateDrag: simulateDrag
-	// show ripple helper
+	// show ripple helper on touch event
 	property bool touchVisualize: false
 
 	QtObject {

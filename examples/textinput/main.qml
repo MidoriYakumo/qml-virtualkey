@@ -6,7 +6,7 @@ import VirtualKey 1.0
 
 Window {
 	visible: true
-	width: Math.max(800, 0)//vkeys.width + Units.gu * 2)
+	width: Math.max(800, vkeys.centerItem.width + Units.gu * 2)
 	height: 600
 	title: qsTr("Text Input")
 

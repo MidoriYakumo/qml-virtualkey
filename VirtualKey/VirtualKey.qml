@@ -66,6 +66,9 @@ Button {
 		if (repeatInterval<=0)
 			sendClick()
 
+//	onReleased: // event missing still not fixed
+//		state = "freeze"
+
 	function sendPress() {
 		//console.log("sendPress")
 		if (!target)
@@ -166,9 +169,10 @@ Button {
 		id: repeatTrigger
 	}
 
-	Component.onCompleted: { // minimal size
-		height = contentItem.height + topPadding + bottomPadding
-		if (width === 0)
+	Component.onCompleted: { // default: minimal size
+		if (width === 0) {
 			width = contentItem.paintedWidth + leftPadding + rightPadding
+			height = contentItem.height + topPadding + bottomPadding
+		}
 	}
 }

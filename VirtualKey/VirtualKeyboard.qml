@@ -1,8 +1,4 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
-//import QtQuick.Controls.Material.impl 2.0
-import QtGraphicalEffects 1.0
 
 import "."
 
@@ -15,13 +11,13 @@ VirtualKeys {
 	property int keyWidth: Units.gu// / 2
 	property int keySpacing: Units.dp * 3
 
-	modifiers: d.shiftModifier | d.otherModifier
+	modifiers: d.shiftModifier | d.otherModifiers
 
 	QtObject {
 		id: d
 
 		property int shiftModifier: shiftKey.checked?Qt.ShiftModifier:Qt.NoModifier
-		property int otherModifier:
+		property int otherModifiers:
 			controlKey.checked?Qt.ControlModifier:Qt.NoModifier |
 			alterKey.checked?Qt.AltModifier:Qt.NoModifier
 	}
@@ -40,7 +36,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"!":"1"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -48,7 +44,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"@":"2"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -56,7 +52,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"#":"3"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -64,7 +60,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"$":"4"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -72,7 +68,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"%":"5"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -80,7 +76,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"^":"6"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -88,7 +84,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"&":"7"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -96,7 +92,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"*":"8"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -104,7 +100,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"(":"9"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -112,14 +108,14 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?")":"0"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
 			VirtualKey {
 				target: control.target
 				targetHandler: null
-				text: " 🡄 "
+				text: " ⬅ "
 				key: Qt.Key_Backspace
 				modifiers: control.modifiers
 				width: control.keyWidth * 2 + parent.spacing
@@ -145,7 +141,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"Q":"q"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -153,7 +149,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"W":"w"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -161,7 +157,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"E":"e"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -176,7 +172,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"T":"t"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -184,7 +180,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"Y":"y"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -192,7 +188,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"U":"u"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -200,7 +196,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"I":"i"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -208,7 +204,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"O":"o"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -216,7 +212,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"P":"p"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -252,7 +248,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"A":"a"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -260,7 +256,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"S":"s"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -268,7 +264,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"D":"d"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -276,7 +272,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"F":"f"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -284,7 +280,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"G":"g"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -299,7 +295,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"J":"j"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -307,7 +303,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"K":"k"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -326,6 +322,7 @@ VirtualKeys {
 				key: Qt.Key_Enter
 				modifiers: control.modifiers
 				width: control.keyWidth * 2 + parent.spacing
+				padding: 0
 			}
 		}
 
@@ -359,7 +356,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"Z":"z"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -367,7 +364,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"X":"x"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -375,7 +372,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"C":"c"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -383,7 +380,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"V":"v"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -391,7 +388,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"B":"b"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -399,7 +396,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"N":"n"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 
@@ -407,7 +404,7 @@ VirtualKeys {
 				target: control.target
 				targetHandler: null
 				text: (control.modifiers&Qt.ShiftModifier)?"M":"m"
-				modifiers: d.otherModifier
+				modifiers: d.otherModifiers
 				width: control.keyWidth
 			}
 

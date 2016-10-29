@@ -1,4 +1,3 @@
-
 import QtQuick 2.7
 
 import "."
@@ -141,4 +140,6 @@ MultiPointTouchArea {
 
 //		defer.start()
 //	}
+
+	// TODO: add two finger to wheel convertion
 }

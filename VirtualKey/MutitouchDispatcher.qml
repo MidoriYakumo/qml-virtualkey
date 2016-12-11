@@ -34,111 +34,93 @@ MultiPointTouchArea {
 
 	onPressed: {
 		for (var i in touchPoints) {
-			var p = touchPoints[i]
+			var p = touchPoints[i];
 			if (touchVisualize)
-				ripple.create(p.x, p.y, parent, "lime")
+				ripple.create(p.x, p.y, parent, "lime");
 			if (accumulateDrag)
-				d.prevPoints[p.pointId] = {x:p.x,y:p.y}
+				d.prevPoints[p.pointId] = {x:p.x,y:p.y};
 
 			defer.push({
 				x:p.x, y:p.y,
 				act: function(){
-					target.focus = true
+					target.focus = true;
 					InputEventSource.mousePress(target,
 						this.x, this.y,
 						Qt.LeftButton, Qt.NoModifier, -1
-					)
+					);
 				}
 			})
 		}
 
-		defer.start()
+		defer.start();
 	}
 
 	onReleased: {
 		for (var i in touchPoints) {
-			var p = touchPoints[i]
+			var p = touchPoints[i];
 			if (touchVisualize)
-				ripple.create(p.x, p.y, parent, "slateblue")
+				ripple.create(p.x, p.y, parent, "slateblue");
 			if (accumulateDrag)
-				delete d.prevPoints[p.pointId]
+				delete d.prevPoints[p.pointId];
 
 			defer.push({
 				x:p.x, y:p.y,
 				act: function(){
-					target.focus = true
+					target.focus = true;
 					InputEventSource.mouseRelease(target,
 						this.x, this.y,
 						Qt.LeftButton, Qt.NoModifier, -1
-					)
+					);
 				}
 			})
 		}
 
-		defer.start()
+		defer.start();
 	}
 
 	onUpdated: {
 		for (var i in touchPoints) {
-			var p = touchPoints[i]
-			var sx = p.previousX, sy = p.previousY
+			var p = touchPoints[i];
+			var sx = p.previousX, sy = p.previousY;
 			if (accumulateDrag) {
-				var dx = p.x-d.prevPoints[p.pointId].x
-				var dy = p.y-d.prevPoints[p.pointId].y
+				var dx = p.x-d.prevPoints[p.pointId].x;
+				var dy = p.y-d.prevPoints[p.pointId].y;
 				if (dx*dx+dy*dy<InputEventSource.threshold2)
-					continue
-				sx = d.prevPoints[p.pointId].x
-				sy = d.prevPoints[p.pointId].y
-				d.prevPoints[p.pointId] = {x:p.x,y:p.y}
+					continue;
+				sx = d.prevPoints[p.pointId].x;
+				sy = d.prevPoints[p.pointId].y;
+				d.prevPoints[p.pointId] = {x:p.x,y:p.y};
 			}
 
 			if (touchVisualize) // only draw with event
-				ripple.create(p.x, p.y, parent, "teal")
+				ripple.create(p.x, p.y, parent, "teal");
 
 			defer.push(simulateDrag?
 				{
 					x:p.x, y:p.y, px: sx, py: sy,
 					act: function(){
-						target.focus = true
+						target.focus = true;
 						InputEventSource.mouseDrag(target,
 							this.px, this.py, this.x, this.y,
 							Qt.LeftButton, Qt.NoModifier, -1
-						)
+						);
 					}
 				}:{
 				   x:p.x, y:p.y,
 				   act: function(){
-					   target.focus = true
+					   target.focus = true;
 					   InputEventSource.mouseMove(target,
 						   this.x, this.y, -1, Qt.LeftButton
-					   )
+					   );
 				   }
 				}
 			)
 		}
 
-		defer.start()
+		defer.start();
 	}
 
 //	onCanceled: {
-//		for (var i in touchPoints) {
-//			var p = touchPoints[i]
-//			if (touchVisualize)
-//				ripple.create(p.x, p.y, parent, "crisom")
-
-//			defer.push({
-//				x:p.x, y:p.y,
-//				act: function(){
-//					target.focus = true
-//					InputEventSource.mouseRelease(target,
-//						this.x, this.y,
-//						Qt.LeftButton, Qt.NoModifier, -1
-//					)
-//				}
-//			})
-//		}
-
-//		defer.start()
 //	}
 
 	// TODO: add two finger to wheel convertion

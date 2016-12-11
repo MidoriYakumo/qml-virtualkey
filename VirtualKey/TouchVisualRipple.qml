@@ -30,26 +30,26 @@ Item {
 
 			onOpacityChanged: {
 				if (opacity <= 0)
-					destroy()
+					destroy();
 			}
 
 			Component.onCompleted: {
-				width = size + 1
+				width = size + 1;
 			}
 		}
 	}
 
 
 	function create(x, y, par, color, size, duration) {
-		var r = component.createObject(par)
-		r.cx = x
-		r.cy = y
+		var r = component.createObject(par);
+		r.cx = x;
+		r.cy = y;
 		if (color)
-			r.color = color
+			r.color = color;
 		if (size)
-			r.size = size
+			r.size = size;
 		if (duration)
-			r.duration = duration
-		return r
+			r.duration = duration;
+		return r;
 	}
 }

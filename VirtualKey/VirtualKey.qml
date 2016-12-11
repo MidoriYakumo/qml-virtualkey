@@ -53,116 +53,119 @@ Button {
 	]
 
 
-	onPressedChanged:
+	onPressedChanged: {
 		if (repeatInterval>0)
 			if (pressed) {
-				sendPress()
-				state = "delay"
+				sendPress();
+				state = "delay";
 			}
 			else
-				sendRelease()
+				sendRelease();
+	}
 
-	onClicked:
+	onClicked: {
 		if (repeatInterval<=0)
-			sendClick()
+			sendClick();
+	}
 
-//	onReleased: // event missing still not fixed
-//		state = "freeze"
+//	onReleased: { // event missing still not fixed
+//		state = "freeze";
+//	}
 
 	function sendPress() {
-		//console.log("sendPress")
+		//console.log("sendPress");
 		if (!target)
 			return;
 
-		target.focus = true
+		target.focus = true;
 
-		var done = false
+		var done = false;
 		if (text) {
 			if (targetHandler) {
-				var t = text
-				t = t.setCharAt(0, t[0].toLowerCase())
+				var t = text;
+				t = t.setCharAt(0, t[0].toLowerCase());
 				var event = {
 					"key": key,
 					"modifiers": modifiers,
 					"text": text
 				}
 				if (targetHandler[t+"Pressed"]) {
-					targetHandler[t+"Pressed"](event)
-					done = true
+					targetHandler[t+"Pressed"](event);
+					done = true;
 				} else if (targetHandler["pressed"]) {
-					targetHandler["pressed"](event)
-					done = true
+					targetHandler["pressed"](event);
+					done = true;
 				}
 			}
 			if (!done && text.length == 1) {
-				InputEventSource.keyPressChar(text, modifiers, -1)
-				done = true
+				InputEventSource.keyPressChar(text, modifiers, -1);
+				done = true;
 			}
 		}
 		if (!done)
-			InputEventSource.keyPress(key, modifiers, -1)
+			InputEventSource.keyPress(key, modifiers, -1);
 	}
 
 	function sendRelease() {
-		//console.log("sendRelease")
+		//console.log("sendRelease");
 		if (!target)
 			return;
 
-		target.focus = true
+		target.focus = true;
 
-		var done = false
+		var done = false;
 		if (text) {
 			if (targetHandler) {
-				var t = text
-				t = t.setCharAt(0, t[0].toLowerCase())
+				var t = text;
+				t = t.setCharAt(0, t[0].toLowerCase());
 				var event = {
 					"key": key,
 					"modifiers": modifiers,
 					"text": text
 				}
 				if (targetHandler["released"]) {
-					targetHandler["released"](event)
-					done = true
+					targetHandler["released"](event);
+					done = true;
 				}
 			}
 			if (!done && text.length == 1) {
-				InputEventSource.keyReleaseChar(text, modifiers, -1)
-				done = true
+				InputEventSource.keyReleaseChar(text, modifiers, -1);
+				done = true;
 			}
 		}
 		if (!done)
-			InputEventSource.keyRelease(key, modifiers, -1)
+			InputEventSource.keyRelease(key, modifiers, -1);
 	}
 
 	function sendClick() {
-		//console.log("sendClick")
+		//console.log("sendClick");
 		if (!target)
 			return;
 
-		target.focus = true
+		target.focus = true;
 
-		var done = false
+		var done = false;
 		if (text) {
 			if (targetHandler) {
-				var t = text
-				t = t.setCharAt(0, t[0].toLowerCase())
+				var t = text;
+				t = t.setCharAt(0, t[0].toLowerCase());
 				var event = {
 					"key": key,
 					"modifiers": modifiers,
 					"text": text
 				}
 				if (targetHandler["clicked"]) {
-					targetHandler["clicked"](event)
-					done = true
+					targetHandler["clicked"](event);
+					done = true;
 				}
 			}
 			if (!done && text.length == 1) {
-				InputEventSource.keyClickChar(text, modifiers, -1)
-				done = true
+				InputEventSource.keyClickChar(text, modifiers, -1);
+				done = true;
 			}
 		}
 		if (!done)
-			InputEventSource.keyClick(key, modifiers, -1)
+			InputEventSource.keyClick(key, modifiers, -1);
 	}
 
 	Timer {
@@ -171,8 +174,8 @@ Button {
 
 	Component.onCompleted: { // default: minimal size
 		if (width === 0) {
-			width = contentItem.paintedWidth + leftPadding + rightPadding
-			height = contentItem.height + topPadding + bottomPadding
+			width = contentItem.paintedWidth + leftPadding + rightPadding;
+			height = contentItem.height + topPadding + bottomPadding;
 		}
 	}
 }

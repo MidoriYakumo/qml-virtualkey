@@ -5,8 +5,8 @@ import QtQuick.Window 2.2
 
 QtObject {
 	readonly property real pixelDensity: useLogicalPixelDensity?
-		Screen.logicalPixelDensity:
-		Screen.pixelDensity
+			Screen.logicalPixelDensity:
+			Screen.pixelDensity
 
 	readonly property real dp: pixelDensity*25.4*multiplier/160.
 	readonly property real gu: dp * 64

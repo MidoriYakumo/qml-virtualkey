@@ -26,25 +26,25 @@ Item {
 
 		onTriggered: {
 			if (pauseInput)
-				input.enabled = false
+				input.enabled = false;
 			while (d.queue.length) {
-				var event = d.queue.shift()
-				event.act()
+				var event = d.queue.shift();
+				event.act();
 			}
 			if (pauseInput)
-				input.enabled = true
-			defer.finished()
+				input.enabled = true;
+			defer.finished();
 		}
 	}
 
 	function push(event) {
 		if (event["act"])
-			d.queue.push(event)
+			d.queue.push(event);
 		else
-			console.warn("Event %1 has no 'act' method".arg(event))
+			console.warn("Event %1 has no 'act' method".arg(event));
 	}
 
 	function start(){
-		timer.start()
+		timer.start();
 	}
 }

@@ -39,9 +39,9 @@ Item  {
 	Rectangle {
 		id: controls
 		height: Units.dp * 16 + Math.max(centerItem.height,
-			Math.max(vkeys.enablePad?virtualpad.height:0,
-				vkeys.enableGameButtons?gameButtons.height:0)
-			)
+				Math.max(vkeys.enablePad?virtualpad.height:0,
+						vkeys.enableGameButtons?gameButtons.height:0)
+		)
 
 		anchors.left: parent.left
 		anchors.right: parent.right
@@ -84,9 +84,9 @@ Item  {
 
 	onActiveChanged:
 		if (active)
-			inAnime.start()
+			inAnime.start();
 		else
-			outAnime.start()
+			outAnime.start();
 
 	NumberAnimation {
 		id: inAnime
@@ -106,12 +106,12 @@ Item  {
 
 	function setCenterItemCenter() {
 		if (!centerItem) return;
-		var r = 0
+		var r = 0;
 		if (enablePad)
-			r += virtualpad.width
+			r += virtualpad.width;
 		if (enableGameButtons)
-			r -= gameButtons.width
-			centerItem.anchors.horizontalCenterOffset = r/2
+			r -= gameButtons.width;
+			centerItem.anchors.horizontalCenterOffset = r/2;
 	}
 
 	onEnableGameButtonsChanged: setCenterItemCenter()
@@ -119,13 +119,13 @@ Item  {
 	onCenterItemChanged: setCenterItemCenter()
 
 	Component.onCompleted: {
-		centerItem.parent = controls
-//		centerItem.anchors.horizontalCenter = controls.horizontalCenter
-		anchors.bottomMargin = active?0:-controls.height
+		centerItem.parent = controls;
+//		centerItem.anchors.horizontalCenter = controls.horizontalCenter;
+		anchors.bottomMargin = active?0:-controls.height;
 		overlayTarget.anchors.bottomMargin = Qt.binding(function(){
-			return (overlay||!active)?0:controls.height
-		})
+			return (overlay||!active)?0:controls.height;
+		});
 
-		console.log("VirtualKeys.targetHandler:", targetHandler)
+		console.log("VirtualKeys.targetHandler:", targetHandler);
 	}
 }

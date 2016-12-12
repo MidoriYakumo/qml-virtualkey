@@ -51,7 +51,6 @@ Canvas {
 	}
 
 	state: "freeze"
-
 	states: [
 		State {
 			name: "freeze"
@@ -81,79 +80,6 @@ Canvas {
 			}
 		}
 	]
-
-
-	onPressedChanged: requestPaint()
-	onDirectionChanged: {
-		requestPaint();
-		if (d.directionToRelease !== direction)
-			state = "release";
-	}
-
-	onPaint: {
-		var ctx = getContext("2d");
-		ctx.save();
-		ctx.clearRect(0, 0, width, height);
-
-		ctx.beginPath();
-		ctx.arc(width/2, height/2, height/2, 0, 2 * Math.PI);
-		ctx.fillStyle = pressed?control.Material.buttonPressColor:control.Material.buttonColor;
-		ctx.fill();
-		ctx.closePath();
-
-
-		ctx.beginPath();
-		ctx.arc(width/2, height/2, innerRadius, 0, 2 * Math.PI);
-		ctx.strokeStyle = control.Material.foreground;
-		ctx.stroke();
-		ctx.closePath();
-
-		ctx.fillStyle = direction&4?
-					control.Material.primaryHighlightedTextColor:
-					control.Material.foreground;
-
-		ctx.beginPath();
-		ctx.moveTo(arrowSize, height/2);
-		ctx.lineTo(arrowSize*2, height/2-arrowSize);
-		ctx.lineTo(arrowSize*2, height/2+arrowSize);
-		ctx.fill();
-		ctx.closePath();
-
-		ctx.fillStyle = direction&1?
-					control.Material.primaryHighlightedTextColor:
-					control.Material.foreground;
-
-		ctx.beginPath();
-		ctx.moveTo(width-arrowSize, height/2);
-		ctx.lineTo(width-arrowSize*2, height/2-arrowSize);
-		ctx.lineTo(width-arrowSize*2, height/2+arrowSize);
-		ctx.fill();
-		ctx.closePath();
-
-		ctx.fillStyle = direction&2?
-					control.Material.primaryHighlightedTextColor:
-					control.Material.foreground;
-
-		ctx.beginPath();
-		ctx.moveTo(width/2, arrowSize);
-		ctx.lineTo(width/2-arrowSize, arrowSize*2);
-		ctx.lineTo(width/2+arrowSize, arrowSize*2);
-		ctx.fill();
-		ctx.closePath();
-
-		ctx.fillStyle = direction&8?
-					control.Material.primaryHighlightedTextColor:
-					control.Material.foreground;
-
-		ctx.beginPath();
-		ctx.moveTo(width/2, height-arrowSize);
-		ctx.lineTo(width/2-arrowSize, height-arrowSize*2);
-		ctx.lineTo(width/2+arrowSize, height-arrowSize*2);
-		ctx.fill();
-		ctx.closePath();
-
-		ctx.restore();
-	}
 
 //	MouseArea {
 	MultiPointTouchArea {
@@ -300,4 +226,75 @@ Canvas {
 		triggeredOnStart: true
 	}
 
+	onPressedChanged: requestPaint()
+	onDirectionChanged: {
+		requestPaint();
+		if (d.directionToRelease !== direction)
+			state = "release";
+	}
+
+	onPaint: {
+		var ctx = getContext("2d");
+		ctx.save();
+		ctx.clearRect(0, 0, width, height);
+
+		ctx.beginPath();
+		ctx.arc(width/2, height/2, height/2, 0, 2 * Math.PI);
+		ctx.fillStyle = pressed?control.Material.buttonPressColor:control.Material.buttonColor;
+		ctx.fill();
+		ctx.closePath();
+
+
+		ctx.beginPath();
+		ctx.arc(width/2, height/2, innerRadius, 0, 2 * Math.PI);
+		ctx.strokeStyle = control.Material.foreground;
+		ctx.stroke();
+		ctx.closePath();
+
+		ctx.fillStyle = direction&4?
+					control.Material.primaryHighlightedTextColor:
+					control.Material.foreground;
+
+		ctx.beginPath();
+		ctx.moveTo(arrowSize, height/2);
+		ctx.lineTo(arrowSize*2, height/2-arrowSize);
+		ctx.lineTo(arrowSize*2, height/2+arrowSize);
+		ctx.fill();
+		ctx.closePath();
+
+		ctx.fillStyle = direction&1?
+					control.Material.primaryHighlightedTextColor:
+					control.Material.foreground;
+
+		ctx.beginPath();
+		ctx.moveTo(width-arrowSize, height/2);
+		ctx.lineTo(width-arrowSize*2, height/2-arrowSize);
+		ctx.lineTo(width-arrowSize*2, height/2+arrowSize);
+		ctx.fill();
+		ctx.closePath();
+
+		ctx.fillStyle = direction&2?
+					control.Material.primaryHighlightedTextColor:
+					control.Material.foreground;
+
+		ctx.beginPath();
+		ctx.moveTo(width/2, arrowSize);
+		ctx.lineTo(width/2-arrowSize, arrowSize*2);
+		ctx.lineTo(width/2+arrowSize, arrowSize*2);
+		ctx.fill();
+		ctx.closePath();
+
+		ctx.fillStyle = direction&8?
+					control.Material.primaryHighlightedTextColor:
+					control.Material.foreground;
+
+		ctx.beginPath();
+		ctx.moveTo(width/2, height-arrowSize);
+		ctx.lineTo(width/2-arrowSize, height-arrowSize*2);
+		ctx.lineTo(width/2+arrowSize, height-arrowSize*2);
+		ctx.fill();
+		ctx.closePath();
+
+		ctx.restore();
+	}
 }

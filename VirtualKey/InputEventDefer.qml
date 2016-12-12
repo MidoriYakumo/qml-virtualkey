@@ -12,6 +12,17 @@ Item {
 
 	signal finished()
 
+	function push(event) {
+		if (event["act"])
+			d.queue.push(event);
+		else
+			console.warn("Event %1 has no 'act' method".arg(event));
+	}
+
+	function start(){
+		timer.start();
+	}
+
 	QtObject {
 		id: d
 
@@ -35,16 +46,5 @@ Item {
 				input.enabled = true;
 			defer.finished();
 		}
-	}
-
-	function push(event) {
-		if (event["act"])
-			d.queue.push(event);
-		else
-			console.warn("Event %1 has no 'act' method".arg(event));
-	}
-
-	function start(){
-		timer.start();
 	}
 }

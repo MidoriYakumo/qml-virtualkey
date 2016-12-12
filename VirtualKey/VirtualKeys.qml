@@ -51,11 +51,11 @@ Item  {
 		property alias targetHandler: vkeys.targetHandler
 		property alias modifiers: vkeys.modifiers
 
+		property Item centerItem: Item {}
+
 		opacity: (vkeys.height-y)/height
 		clip: opacity > 0 && color.a > 0
 		color: Material.backgroundColor
-
-		property Item centerItem: Item { }
 
 		VirtualPad {
 			id: virtualpad
@@ -82,12 +82,6 @@ Item  {
 		}
 	}
 
-	onActiveChanged:
-		if (active)
-			inAnime.start();
-		else
-			outAnime.start();
-
 	NumberAnimation {
 		id: inAnime
 		target: controls
@@ -113,6 +107,12 @@ Item  {
 			r -= gameButtons.width;
 			centerItem.anchors.horizontalCenterOffset = r/2;
 	}
+
+	onActiveChanged:
+		if (active)
+			inAnime.start();
+		else
+			outAnime.start();
 
 	onEnableGameButtonsChanged: setCenterItemCenter()
 	onEnablePadChanged: setCenterItemCenter()

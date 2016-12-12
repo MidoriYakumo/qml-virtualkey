@@ -4,6 +4,10 @@ import "."
 
 Row {
 	id: row
+	anchors.bottom: parent.bottom
+	anchors.horizontalCenter: parent.horizontalCenter
+	anchors.margins: Units.dp * 8
+	spacing: Units.dp * 8
 
 	property Item target: parent.target
 	property var targetHandler: parent.targetHandler
@@ -15,11 +19,6 @@ Row {
 		{text:"Shift", key:Qt.Key_Shift/*, hold:true*/},
 		{text:"Space", key:Qt.Key_Space, modifiers: Qt.ControlModifier}
 	]
-
-	anchors.bottom: parent.bottom
-	anchors.horizontalCenter: parent.horizontalCenter
-	anchors.margins: Units.dp * 8
-	spacing: Units.dp * 8
 
 	Repeater {
 		model: row.keys

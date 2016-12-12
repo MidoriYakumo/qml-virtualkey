@@ -7,6 +7,7 @@ Button {
 	id: control
 
 	text: "Unkown"
+	width: 0
 
 	property int key: Qt.Key_unknown
 	property int modifiers: Qt.NoModifier
@@ -15,10 +16,8 @@ Button {
 	property int repeatDelay: 600
 	property int repeatInterval: 40
 
-	width: 0
-
 	focusPolicy: Qt.NoFocus
-
+	state: "freeze"
 	states: [
 		State {
 			name: "freeze"
@@ -52,25 +51,9 @@ Button {
 		}
 	]
 
-
-	onPressedChanged: {
-		if (repeatInterval>0)
-			if (pressed) {
-				sendPress();
-				state = "delay";
-			}
-			else
-				sendRelease();
+	Timer {
+		id: repeatTrigger
 	}
-
-	onClicked: {
-		if (repeatInterval<=0)
-			sendClick();
-	}
-
-//	onReleased: { // event missing still not fixed
-//		state = "freeze";
-//	}
 
 	function sendPress() {
 		//console.log("sendPress");
@@ -168,9 +151,24 @@ Button {
 			InputEventSource.keyClick(key, modifiers, -1);
 	}
 
-	Timer {
-		id: repeatTrigger
+	onPressedChanged: {
+		if (repeatInterval>0)
+			if (pressed) {
+				sendPress();
+				state = "delay";
+			}
+			else
+				sendRelease();
 	}
+
+	onClicked: {
+		if (repeatInterval<=0)
+			sendClick();
+	}
+
+//	onReleased: { // event missing still not fixed
+//		state = "freeze";
+//	}
 
 	Component.onCompleted: { // default: minimal size
 		if (width === 0) {

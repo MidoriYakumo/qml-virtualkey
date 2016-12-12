@@ -46,8 +46,8 @@ Item {
 			control.state = keys>0?"press":"release"
 		}
 	}
-	state: "freeze"
 
+	state: "freeze"
 	states: [
 		State {
 			name: "freeze"
@@ -85,11 +85,6 @@ Item {
 			}
 		}
 	]
-
-	onAPressedChanged: buttonAB.requestPaint()
-	onBPressedChanged: buttonAB.requestPaint()
-	onXPressedChanged: buttonXY.requestPaint()
-	onYPressedChanged: buttonXY.requestPaint()
 
 	Canvas {
 		id: buttonXY
@@ -324,4 +319,9 @@ Item {
 		repeat: repeatInterval>0
 		triggeredOnStart: true
 	}
+
+	onAPressedChanged: buttonAB.requestPaint()
+	onBPressedChanged: buttonAB.requestPaint()
+	onXPressedChanged: buttonXY.requestPaint()
+	onYPressedChanged: buttonXY.requestPaint()
 }

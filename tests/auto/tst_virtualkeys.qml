@@ -23,7 +23,7 @@ Rectangle {
 		id: vkeys
 		active: true
 
-		centerItem: VirtualKey { }
+		centerItem: VirtualKey {}
 	}
 
 	TestCase {

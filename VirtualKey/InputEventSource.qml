@@ -7,7 +7,7 @@ TestEvent {
 	property int threshold: util.dragThreshold+1
 	property int threshold2: threshold*threshold
 
-	property TestUtil util: TestUtil { }
+	property TestUtil util: TestUtil {}
 
 	function mouseDrag(item, sx, sy, ex, ey, button, modifiers, delay) {
 		mousePress(item, sx, sy, button, modifiers, delay);

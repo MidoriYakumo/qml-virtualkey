@@ -10,8 +10,6 @@ Canvas {
 	id: control
 	height: Units.gu * 3
 	width: height
-	renderTarget: Canvas.FramebufferObject
-	renderStrategy: Canvas.Cooperative
 
 	property Item target: parent.target
 	property var targetHandler: parent.targetHandler
@@ -20,6 +18,7 @@ Canvas {
 	property int repeatInterval: 40
 	property int arrowSize: height/9
 	property int innerRadius: (height-arrowSize*6)/2
+	property bool useOpenGL: false
 
 	readonly property alias pressed		: d.pressed
 	readonly property alias direction	: d.direction
@@ -34,6 +33,8 @@ Canvas {
 
 	Material.elevation: pressed ? 8 : 2
 
+	renderTarget: useOpenGL?Canvas.FramebufferObject:Canvas.Image
+	renderStrategy: Canvas.Cooperative
 	layer.enabled: true //control.Material.buttonColor.a > 0
 ////	layer.effect: ElevationEffect { // Not work ???
 ////		elevation: control.Material.elevation

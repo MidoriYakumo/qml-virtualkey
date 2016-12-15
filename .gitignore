@@ -25,6 +25,10 @@ ui_*.h
 Makefile*
 *build-*
 
+# Compiled QML
+*.qmlc
+*.jsc
+
 # QtCreator
 
 *.autosave

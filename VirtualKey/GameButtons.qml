@@ -20,6 +20,7 @@ Item {
 	property bool enableXY: true
 	property int repeatInterval: 0
 	property int buttonRadius: Units.gu * 1.4142 * 2 / 6
+	property bool useOpenGL: false
 
 	property int keyA: Qt.Key_Z
 	property int keyB: Qt.Key_X
@@ -89,7 +90,7 @@ Item {
 	Canvas {
 		id: buttonXY
 		anchors.fill: parent
-		renderTarget: Canvas.FramebufferObject
+		renderTarget: control.useOpenGL?Canvas.FramebufferObject:Canvas.Image
 		renderStrategy: Canvas.Cooperative
 
 		Material.elevation: 2 + (xPressed + yPressed) * 3
@@ -158,7 +159,7 @@ Item {
 	Canvas {
 		id: buttonAB
 		anchors.fill: parent
-		renderTarget: Canvas.FramebufferObject
+		renderTarget: control.useOpenGL?Canvas.FramebufferObject:Canvas.Image
 		renderStrategy: Canvas.Cooperative
 
 		Material.elevation: 2 + (aPressed + bPressed) * 3

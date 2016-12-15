@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/com/github/midoriyakumo/qmlvirtualkey">
+    <qresource prefix="/com/github/midoriyakumo">
         <file>VirtualKey/VirtualKeys.qml</file>
         <file>VirtualKey/VirtualPad.qml</file>
         <file>VirtualKey/VirtualKey.qml</file>

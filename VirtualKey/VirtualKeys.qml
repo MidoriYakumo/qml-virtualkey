@@ -9,7 +9,7 @@ Item  {
 
 	anchors.fill: overlay?overlayTarget:parent
 	visible: controls.opacity>0
-	property bool active: ["android", "ios"].indexOf(Qt.platform.os)>=0
+	property bool active: Utils.isMobilePlatform()
 
 	property Item target: root
 	property var targetHandler: null
@@ -19,6 +19,7 @@ Item  {
 	property bool enablePad: true
 	property bool enableGameButtons: true
 	property alias color: controls.color
+	property bool useOpenGL: false
 
 	property int modifiers
 
@@ -65,6 +66,7 @@ Item  {
 			anchors.bottom: parent.bottom
 			anchors.left: parent.left
 			anchors.margins: Units.dp * 8
+			useOpenGL: vkeys.useOpenGL
 			target: vkeys.target
 			targetHandler: vkeys.targetHandler
 		}
@@ -77,6 +79,7 @@ Item  {
 			anchors.bottom: parent.bottom
 			anchors.right: parent.right
 			anchors.margins: Units.dp * 8
+			useOpenGL: vkeys.useOpenGL
 			target: vkeys.target
 //			targetHandler: vkeys.targetHandler
 		}

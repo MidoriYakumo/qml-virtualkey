@@ -1,6 +1,6 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
+//import QtQuick.Controls 2.0
 //import QtQuick.Controls.Material.impl 2.0
 import QtGraphicalEffects 1.0
 
@@ -31,6 +31,17 @@ Canvas {
 		property int directionToRelease: 0
 	}
 
+	property color buttonPressColor: Material.rippleColor ?
+//			Qt.rgba(Utils.mix(Material.buttonColor.r, Material.rippleColor.r, Material.rippleColor.a),
+//					Utils.mix(Material.buttonColor.g, Material.rippleColor.g, Material.rippleColor.a),
+//					Utils.mix(Material.buttonColor.b, Material.rippleColor.b, Material.rippleColor.a),
+//					1.) :
+		 Qt.rgba(Material.buttonColor.r * 0.76,
+				 Material.buttonColor.g * 0.76,
+				 Material.buttonColor.b * 0.76,
+				 1.) :
+		Material.buttonPressColor
+
 	Material.elevation: pressed ? 8 : 2
 
 	renderTarget: useOpenGL?Canvas.FramebufferObject:Canvas.Image
@@ -40,7 +51,7 @@ Canvas {
 ////		elevation: control.Material.elevation
 ////	}
 	layer.effect: DropShadow {
-		color: Qt.rgba(0,0,0,.32)
+		color: Qt.rgba(0,0,0,.24)
 		radius: control.Material.elevation * 1.5
 		spread: control.Material.elevation * 0.02
 		horizontalOffset: pressed?
@@ -241,7 +252,7 @@ Canvas {
 
 		ctx.beginPath();
 		ctx.arc(width/2, height/2, height/2, 0, 2 * Math.PI);
-		ctx.fillStyle = pressed?control.Material.buttonPressColor:control.Material.buttonColor;
+		ctx.fillStyle = pressed?buttonPressColor:control.Material.buttonColor;
 		ctx.fill();
 		ctx.closePath();
 

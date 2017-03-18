@@ -1,8 +1,8 @@
 // Nintendo layout gamepad buttons
 
 import QtQuick 2.7
-import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
+//import QtQuick.Controls 2.0
 //import QtQuick.Controls.Material.impl 2.0
 import QtGraphicalEffects 1.0
 
@@ -93,6 +93,17 @@ Item {
 		renderTarget: control.useOpenGL?Canvas.FramebufferObject:Canvas.Image
 		renderStrategy: Canvas.Cooperative
 
+		property color buttonPressColor: Material.rippleColor ?
+//			Qt.rgba(Utils.mix(Material.buttonColor.r, Material.rippleColor.r, Material.rippleColor.a),
+//					Utils.mix(Material.buttonColor.g, Material.rippleColor.g, Material.rippleColor.a),
+//					Utils.mix(Material.buttonColor.b, Material.rippleColor.b, Material.rippleColor.a),
+//					1.) :
+			 Qt.rgba(Material.buttonColor.r * 0.76,
+					 Material.buttonColor.g * 0.76,
+					 Material.buttonColor.b * 0.76,
+					 1.) :
+			Material.buttonPressColor
+
 		Material.elevation: 2 + (xPressed + yPressed) * 3
 
 		layer.enabled: true //control.Material.buttonColor.a > 0
@@ -117,7 +128,7 @@ Item {
 				ctx.lineTo(width/2 - dx, height/6 - dx);
 				ctx.lineTo(width/2 + dx, height/6 + dx);
 				ctx.fillStyle = (xPressed&&yPressed)?
-						Material.buttonPressColor:Material.buttonColor;
+						buttonPressColor:Material.buttonColor;
 				ctx.fill();
 				ctx.closePath();
 
@@ -129,7 +140,7 @@ Item {
 			ctx.beginPath();
 			ctx.arc(width/2, height/6, buttonRadius, 0, 2 * Math.PI);
 			ctx.fillStyle = xPressed?
-						Material.buttonPressColor:Material.buttonColor;
+						buttonPressColor:Material.buttonColor;
 			ctx.fill();
 			if (enableXY&&!xPressed)
 				ctx.stroke();
@@ -138,7 +149,7 @@ Item {
 			ctx.beginPath();
 			ctx.arc(width/6, height/2, buttonRadius, 0, 2 * Math.PI);
 			ctx.fillStyle = yPressed?
-						Material.buttonPressColor:Material.buttonColor;
+						buttonPressColor:Material.buttonColor;
 			ctx.fill();
 			if (enableXY&&!yPressed)
 				ctx.stroke();
@@ -161,6 +172,17 @@ Item {
 		anchors.fill: parent
 		renderTarget: control.useOpenGL?Canvas.FramebufferObject:Canvas.Image
 		renderStrategy: Canvas.Cooperative
+
+		property color buttonPressColor: Material.rippleColor ?
+//			Qt.rgba(Utils.mix(Material.buttonColor.r, Material.rippleColor.r, Material.rippleColor.a),
+//					Utils.mix(Material.buttonColor.g, Material.rippleColor.g, Material.rippleColor.a),
+//					Utils.mix(Material.buttonColor.b, Material.rippleColor.b, Material.rippleColor.a),
+//					1.) :
+			 Qt.rgba(Material.buttonColor.r * 0.76,
+					 Material.buttonColor.g * 0.76,
+					 Material.buttonColor.b * 0.76,
+					 1.) :
+			Material.buttonPressColor
 
 		Material.elevation: 2 + (aPressed + bPressed) * 3
 
@@ -187,7 +209,7 @@ Item {
 				ctx.lineTo(width/2 - dx, height*5/6 - dx);
 				ctx.lineTo(width/2 + dx, height*5/6 + dx);
 				ctx.fillStyle = (aPressed&&bPressed)?
-						Material.buttonPressColor:Material.buttonColor;
+						buttonPressColor:Material.buttonColor;
 				ctx.fill();
 				ctx.closePath();
 
@@ -202,7 +224,7 @@ Item {
 			ctx.beginPath();
 			ctx.arc(width*5/6, height/2, buttonRadius, 0, 2 * Math.PI);
 			ctx.fillStyle = aPressed?
-						Material.buttonPressColor:Material.buttonColor;
+						buttonPressColor:Material.buttonColor;
 			ctx.fill();
 			if (enableAB&&!aPressed)
 				ctx.stroke();
@@ -211,7 +233,7 @@ Item {
 			ctx.beginPath();
 			ctx.arc(width/2, height*5/6, buttonRadius, 0, 2 * Math.PI);
 			ctx.fillStyle = bPressed?
-						Material.buttonPressColor:Material.buttonColor;
+						buttonPressColor:Material.buttonColor;
 			ctx.fill();
 			if (enableAB&&!bPressed)
 				ctx.stroke();

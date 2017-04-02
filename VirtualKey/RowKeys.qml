@@ -26,8 +26,7 @@ Row {
 			target: row.target
 			targetHandler: row.targetHandler
 			text: modelData.text
-			key: (modelData["key"]===undefined)?
-					0:modelData.key
+			key: modelData.key || 0
 			modifiers: (modelData["modifiers"]===undefined)?
 					row.modifiers:modelData.modifiers
 		}

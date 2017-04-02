@@ -1,9 +1,8 @@
 import QtQuick 2.7
 import QtQuick.Controls.Material 2.0
-//import QtQuick.Controls 2.0
-//import QtQuick.Controls.Material.impl 2.0
 import QtGraphicalEffects 1.0
 
+import "Private"
 import "."
 
 Canvas {
@@ -62,17 +61,17 @@ Canvas {
 				0
 	}
 
-	state: "freeze"
+	state: "normal"
 	states: [
 		State {
-			name: "freeze"
+			name: "normal"
 			PropertyChanges {
 				target: repeatTrigger
 				running: false
 			}
 		},
 		State {
-			name: "press"
+			name: "pressed"
 			PropertyChanges {
 				target: repeatTrigger
 				running: true
@@ -80,14 +79,14 @@ Canvas {
 			}
 		},
 		State {
-			name: "release"
+			name: "released"
 			PropertyChanges {
 				target: repeatTrigger
 				running: true
 				onTriggered: {
 					mouse.key_release(d.directionToRelease & ~direction);
 					d.directionToRelease = direction;
-					state = pressed?"press":"freeze";
+					state = pressed?"pressed":"normal";
 				}
 			}
 		}
@@ -209,7 +208,7 @@ Canvas {
 			d.directionToRelease = calcDirection(mouseX, mouseY);
 			d.direction = d.directionToRelease;
 			if (direction>0)
-				control.state = "press";
+				control.state = "pressed";
 		}
 
 //		onPositionChanged: {
@@ -225,7 +224,7 @@ Canvas {
 		onReleased: {
 			d.pressed = false;
 			if (direction === 0)
-				control.state = "freeze";
+				control.state = "normal";
 			else
 				d.direction = 0;
 		}
@@ -242,7 +241,7 @@ Canvas {
 	onDirectionChanged: {
 		requestPaint();
 		if (d.directionToRelease !== direction)
-			state = "release";
+			state = "released";
 	}
 
 	onPaint: {

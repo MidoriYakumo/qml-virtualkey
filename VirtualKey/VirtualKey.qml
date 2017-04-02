@@ -1,7 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 
-import "."
+import "Private"
 
 Button {
 	id: control
@@ -17,10 +17,10 @@ Button {
 	property int repeatInterval: 40
 
 	focusPolicy: Qt.NoFocus
-	state: "freeze"
+	state: "normal"
 	states: [
 		State {
-			name: "freeze"
+			name: "normal"
 			when: (control.repeatInterval<=0)||(!pressed)
 			PropertyChanges {
 				target: repeatTrigger
@@ -30,17 +30,17 @@ Button {
 			}
 		},
 		State {
-			name: "delay"
+			name: "delaying"
 			PropertyChanges {
 				target: repeatTrigger
 				repeat: false
 				interval: control.repeatDelay
 				running: true
-				onTriggered: control.state = "repeat"
+				onTriggered: control.state = "repeating"
 			}
 		},
 		State {
-			name: "repeat"
+			name: "repeating"
 			PropertyChanges {
 				target: repeatTrigger
 				repeat: true
@@ -155,7 +155,7 @@ Button {
 		if (repeatInterval>0)
 			if (pressed) {
 				sendPress();
-				state = "delay";
+				state = "delaying";
 			}
 			else
 				sendRelease();
@@ -167,7 +167,7 @@ Button {
 	}
 
 //	onReleased: { // event missing still not fixed
-//		state = "freeze";
+//		state = "normal";
 //	}
 
 	Component.onCompleted: { // default: minimal size

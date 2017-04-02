@@ -5,8 +5,8 @@ import "."
 VirtualKeys {
 	id: control
 
-	enablePad: false
-	enableGameButtons: false
+	padEnabled: false
+	gameButtonsEnabled: false
 
 	property int keyWidth: Units.gu// / 2
 	property int keySpacing: Units.dp * 3

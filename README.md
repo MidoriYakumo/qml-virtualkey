@@ -1,5 +1,5 @@
 # qml-virtualkey
-Pure QML in-app virtual key/keyboard/pad
+Pure QML in-app virtual key/keyboard/gamepad
 
 ## [VirtualKey](./VirtualKey/VirtualKey.qml)
 ![](./examples/simple/ss.png)

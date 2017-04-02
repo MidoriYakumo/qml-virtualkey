@@ -13,10 +13,10 @@ Item {
 	signal finished()
 
 	function push(event) {
-		if (event["act"])
+		if (event["action"])
 			d.queue.push(event);
 		else
-			console.warn("Event %1 has no 'act' method".arg(event));
+			console.warn("Event %1 has no 'action' method".arg(event));
 	}
 
 	function start(){
@@ -40,7 +40,7 @@ Item {
 				input.enabled = false;
 			while (d.queue.length) {
 				var event = d.queue.shift();
-				event.act();
+				event.action();
 			}
 			if (pauseInput)
 				input.enabled = true;

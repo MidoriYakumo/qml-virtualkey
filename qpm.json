@@ -1,6 +1,6 @@
 {
   "name": "com.github.midoriyakumo.qmlvirtualkey",
-  "description": "Pure QML in-app virtual key/keyboard/pad",
+  "description": "Pure QML in-app virtual key/keyboard/gamepad",
   "author": {
     "name": "MidoriYakumo",
     "email": "macrobull.acg.0@gmail.com"

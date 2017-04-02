@@ -62,11 +62,11 @@ Rectangle {
 			vkeys.overlayTarget = root
 			vkeys.active = true
 			vkeys.overlay = false
-			vkeys.enablePad = false
-			vkeys.enableGameButtons = false
+			vkeys.padEnabled = false
+			vkeys.gameButtonsEnabled = false
 			var heightNone = root.anchors.bottomMargin
-			vkeys.enablePad = true
-			vkeys.enableGameButtons = true
+			vkeys.padEnabled = true
+			vkeys.gameButtonsEnabled = true
 			verify(root.anchors.bottomMargin !== heightNone)
 		}
 	}

@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 
+import "Private"
 import "."
 
 Item  {
@@ -16,8 +17,8 @@ Item  {
 	property var overlayTarget: target
 
 	property bool overlay: true
-	property bool enablePad: true
-	property bool enableGameButtons: true
+	property bool padEnabled: true
+	property bool gameButtonsEnabled: true
 	property alias color: controls.color
 	property bool useOpenGL: false
 
@@ -40,8 +41,8 @@ Item  {
 	Rectangle {
 		id: controls
 		height: Units.dp * 16 + Math.max(centerItem.height,
-				Math.max(vkeys.enablePad?virtualpad.height:0,
-						vkeys.enableGameButtons?gameButtons.height:0)
+				Math.max(vkeys.padEnabled?virtualpad.height:0,
+						vkeys.gameButtonsEnabled?gameButtons.height:0)
 		)
 
 		anchors.left: parent.left
@@ -60,7 +61,7 @@ Item  {
 
 		VirtualPad {
 			id: virtualpad
-			visible: enablePad
+			visible: padEnabled
 			opacity: (overlay && parent.color.a===0)?.7:1.
 			height: Units.dp * 64 * 3
 			anchors.bottom: parent.bottom
@@ -73,7 +74,7 @@ Item  {
 
 		GameButtons {
 			id: gameButtons
-			visible: enableGameButtons
+			visible: gameButtonsEnabled
 			opacity: (overlay && parent.color.a===0)?.7:1.
 			height: Units.dp * 64 * 3
 			anchors.bottom: parent.bottom
@@ -104,9 +105,9 @@ Item  {
 	function setCenterItemCenter() {
 		if (!centerItem) return;
 		var r = 0;
-		if (enablePad)
+		if (padEnabled)
 			r += virtualpad.width;
-		if (enableGameButtons)
+		if (gameButtonsEnabled)
 			r -= gameButtons.width;
 			centerItem.anchors.horizontalCenterOffset = r/2;
 	}
@@ -117,8 +118,8 @@ Item  {
 		else
 			outAnime.start();
 
-	onEnableGameButtonsChanged: setCenterItemCenter()
-	onEnablePadChanged: setCenterItemCenter()
+	onGameButtonsEnabledChanged: setCenterItemCenter()
+	onPadEnabledChanged: setCenterItemCenter()
 	onCenterItemChanged: setCenterItemCenter()
 
 	Component.onCompleted: {

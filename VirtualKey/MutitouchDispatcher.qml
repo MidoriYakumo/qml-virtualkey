@@ -1,5 +1,6 @@
 import QtQuick 2.7
 
+import "Private"
 import "."
 
 MultiPointTouchArea {
@@ -42,7 +43,7 @@ MultiPointTouchArea {
 
 			defer.push({
 				x:p.x, y:p.y,
-				act: function(){
+				action: function(){
 					target.focus = true;
 					InputEventSource.mousePress(target,
 						this.x, this.y,
@@ -65,7 +66,7 @@ MultiPointTouchArea {
 
 			defer.push({
 				x:p.x, y:p.y,
-				act: function(){
+				action: function(){
 					target.focus = true;
 					InputEventSource.mouseRelease(target,
 						this.x, this.y,
@@ -98,7 +99,7 @@ MultiPointTouchArea {
 			defer.push(simulateDrag?
 				{
 					x:p.x, y:p.y, px: sx, py: sy,
-					act: function(){
+					action: function(){
 						target.focus = true;
 						InputEventSource.mouseDrag(target,
 							this.px, this.py, this.x, this.y,
@@ -107,7 +108,7 @@ MultiPointTouchArea {
 					}
 				}:{
 				   x:p.x, y:p.y,
-				   act: function(){
+				   action: function(){
 					   target.focus = true;
 					   InputEventSource.mouseMove(target,
 						   this.x, this.y, -1, Qt.LeftButton

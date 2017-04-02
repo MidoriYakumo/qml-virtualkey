@@ -42,8 +42,8 @@ Window {
 
 		active: true
 		target: root
-		enablePad: false
-		enableGameButtons: false
+		padEnabled: false
+		gameButtonsEnabled: false
 		color: "#d6d7d7"
 		overlay: toggleOverlay.checked
 		modifiers: shiftKey.checked?Qt.ShiftModifier:Qt.NoModifier

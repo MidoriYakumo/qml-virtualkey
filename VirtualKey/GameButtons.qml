@@ -2,10 +2,9 @@
 
 import QtQuick 2.7
 import QtQuick.Controls.Material 2.0
-//import QtQuick.Controls 2.0
-//import QtQuick.Controls.Material.impl 2.0
 import QtGraphicalEffects 1.0
 
+import "Private"
 import "."
 
 Item {
@@ -16,8 +15,8 @@ Item {
 	property Item target: parent.target
 //	property var targetHandler: parent.targetHandler
 
-	property bool enableAB: true
-	property bool enableXY: true
+	property bool abEnabled: true
+	property bool xyEnabled: true
 	property int repeatInterval: 0
 	property int buttonRadius: Units.gu * 1.4142 * 2 / 6
 	property bool useOpenGL: false
@@ -44,21 +43,21 @@ Item {
 		property bool yPressed: keys&8
 
 		onKeysChanged: {
-			control.state = keys>0?"press":"release"
+			control.state = keys>0?"pressed":"released"
 		}
 	}
 
-	state: "freeze"
+	state: "normal"
 	states: [
 		State {
-			name: "freeze"
+			name: "normal"
 			PropertyChanges {
 				target: repeatTrigger
 				running: false
 			}
 		},
 		State {
-			name: "press"
+			name: "pressed"
 			PropertyChanges {
 				target: repeatTrigger
 				running: true
@@ -66,7 +65,7 @@ Item {
 					mouse.key_release(d.prevKeys & ~d.keys);
 					if (repeatInterval == 0) {
 						mouse.key_press(d.keys & ~d.prevKeys);
-						state = "freeze";
+						state = "normal";
 					} else
 						mouse.key_press(d.keys);
 					d.prevKeys = d.keys;
@@ -74,14 +73,14 @@ Item {
 			}
 		},
 		State {
-			name: "release"
+			name: "released"
 			PropertyChanges {
 				target: repeatTrigger
 				running: true
 				onTriggered: {
 					mouse.key_release(d.prevKeys);
 					d.prevKeys = 0;
-					control.state = "freeze";
+					control.state = "normal";
 				}
 			}
 		}
@@ -111,7 +110,7 @@ Item {
 			color: Qt.rgba(0,0,0,.24)
 			radius: buttonXY.Material.elevation * 1.5
 			spread: buttonXY.Material.elevation * 0.02
-			horizontalOffset: enableXY?(xPressed - yPressed)*radius/4:0
+			horizontalOffset: xyEnabled?(xPressed - yPressed)*radius/4:0
 			verticalOffset: -horizontalOffset
 		}
 
@@ -121,7 +120,7 @@ Item {
 			ctx.save();
 			ctx.clearRect(0, 0, width, height);
 
-			if (enableXY) {
+			if (xyEnabled) {
 				ctx.beginPath();
 				ctx.moveTo(width/6 + dx, height/2 + dx);
 				ctx.lineTo(width/6 - dx, height/2 - dx);
@@ -142,7 +141,7 @@ Item {
 			ctx.fillStyle = xPressed?
 						buttonPressColor:Material.buttonColor;
 			ctx.fill();
-			if (enableXY&&!xPressed)
+			if (xyEnabled&&!xPressed)
 				ctx.stroke();
 			ctx.closePath();
 
@@ -151,7 +150,7 @@ Item {
 			ctx.fillStyle = yPressed?
 						buttonPressColor:Material.buttonColor;
 			ctx.fill();
-			if (enableXY&&!yPressed)
+			if (xyEnabled&&!yPressed)
 				ctx.stroke();
 			ctx.closePath();
 
@@ -191,7 +190,7 @@ Item {
 			color: Qt.rgba(0,0,0,.24)
 			radius: buttonAB.Material.elevation * 1.5
 			spread: buttonAB.Material.elevation * 0.02
-			horizontalOffset: enableAB?(aPressed - bPressed)*radius/4:0
+			horizontalOffset: abEnabled?(aPressed - bPressed)*radius/4:0
 			verticalOffset: -horizontalOffset
 		}
 
@@ -202,7 +201,7 @@ Item {
 			ctx.clearRect(0, 0, width, height);
 			ctx.shadowColor = Qt.rgba(0,0,0,.32);
 
-			if (enableAB) {
+			if (abEnabled) {
 				ctx.beginPath();
 				ctx.moveTo(width*5/6 + dx, height/2 + dx);
 				ctx.lineTo(width*5/6 - dx, height/2 - dx);
@@ -226,7 +225,7 @@ Item {
 			ctx.fillStyle = aPressed?
 						buttonPressColor:Material.buttonColor;
 			ctx.fill();
-			if (enableAB&&!aPressed)
+			if (abEnabled&&!aPressed)
 				ctx.stroke();
 			ctx.closePath();
 
@@ -235,7 +234,7 @@ Item {
 			ctx.fillStyle = bPressed?
 						buttonPressColor:Material.buttonColor;
 			ctx.fill();
-			if (enableAB&&!bPressed)
+			if (abEnabled&&!bPressed)
 				ctx.stroke();
 			ctx.closePath();
 
@@ -275,7 +274,7 @@ Item {
 				r = 4;
 			} else if (distance2(x, y, width/6, height/2) <= r2) {
 				r = 8;
-			} else if (enableAB || enableXY){
+			} else if (abEnabled || xyEnabled){
 				var ds = buttonRadius*width*1.4142/3;
 				var c0 = cross(x, y, width/2, height*5/6, width*5/6, height/2);
 				var c1 = cross(x, y, width*5/6, height/2, width/2, height/6);
@@ -283,9 +282,9 @@ Item {
 				var c3 = cross(x, y, width/6, height/2, width/2, height*5/6);
 
 				if (c1*c3>0) {
-					if (enableAB && -ds<=c0 && c0 <= ds)
+					if (abEnabled && -ds<=c0 && c0 <= ds)
 						r = 3;
-					else if (enableXY && -ds<=c2 && c2 <= ds)
+					else if (xyEnabled && -ds<=c2 && c2 <= ds)
 						r = 12;
 				}
 			}

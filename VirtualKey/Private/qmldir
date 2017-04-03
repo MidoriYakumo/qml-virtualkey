@@ -1,3 +1,3 @@
 
 singleton InputEventSource InputEventSource.qml
-Utils utils.js
+Utils 1.0 utils.js

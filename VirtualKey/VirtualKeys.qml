@@ -82,7 +82,6 @@ Item  {
 			anchors.margins: Units.dp * 8
 			useOpenGL: vkeys.useOpenGL
 			target: vkeys.target
-//			targetHandler: vkeys.targetHandler
 		}
 	}
 
@@ -124,7 +123,6 @@ Item  {
 
 	Component.onCompleted: {
 		centerItem.parent = controls;
-//		centerItem.anchors.horizontalCenter = controls.horizontalCenter;
 		anchors.bottomMargin = active?0:-controls.height;
 		overlayTarget.anchors.bottomMargin = Qt.binding(function(){
 			return (overlay||!active)?0:controls.height;

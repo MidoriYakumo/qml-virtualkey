@@ -31,10 +31,6 @@ Canvas {
 	}
 
 	property color buttonPressColor: Material.rippleColor ?
-//			Qt.rgba(Utils.mix(Material.buttonColor.r, Material.rippleColor.r, Material.rippleColor.a),
-//					Utils.mix(Material.buttonColor.g, Material.rippleColor.g, Material.rippleColor.a),
-//					Utils.mix(Material.buttonColor.b, Material.rippleColor.b, Material.rippleColor.a),
-//					1.) :
 		 Qt.rgba(Material.buttonColor.r * 0.76,
 				 Material.buttonColor.g * 0.76,
 				 Material.buttonColor.b * 0.76,
@@ -46,9 +42,6 @@ Canvas {
 	renderTarget: useOpenGL?Canvas.FramebufferObject:Canvas.Image
 	renderStrategy: Canvas.Cooperative
 	layer.enabled: true //control.Material.buttonColor.a > 0
-////	layer.effect: ElevationEffect { // Not work ???
-////		elevation: control.Material.elevation
-////	}
 	layer.effect: DropShadow {
 		color: Qt.rgba(0,0,0,.24)
 		radius: control.Material.elevation * 1.5
@@ -92,7 +85,6 @@ Canvas {
 		}
 	]
 
-//	MouseArea {
 	MultiPointTouchArea {
 		id: mouse
 		anchors.fill: parent
@@ -165,27 +157,6 @@ Canvas {
 			if (direction) {
 				target.focus = true;
 				if (targetHandler) {
-//					var event = {
-//						"key": Qt.Key_unknown,
-//						"modifiers": Qt.NoModifier,
-//						"text": ""
-//					};
-//					if (direction & 1){
-//						event.key = Qt.Key_Right;
-//						targetHandler.onReleased(event);
-//					};
-//					if (direction & 2){
-//						event.key = Qt.Key_Up;
-//						targetHandler.onReleased(event);
-//					};
-//					if (direction & 4) {
-//						event.key = Qt.Key_Left;
-//						targetHandler.onReleased(event);
-//					};
-//					if (direction & 8) {
-//						event.key = Qt.Key_Down;
-//						targetHandler.onReleased(event);
-//					};
 				} else {
 					if (direction & 1)
 						InputEventSource.keyRelease(Qt.Key_Right, Qt.NoModifier, -1);
@@ -211,7 +182,6 @@ Canvas {
 				control.state = "pressed";
 		}
 
-//		onPositionChanged: {
 		onUpdated: {
 			var p = touchPoints[0];
 			mouseX = p.x;

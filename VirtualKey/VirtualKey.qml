@@ -56,7 +56,6 @@ Button {
 	}
 
 	function sendPress() {
-		//console.log("sendPress");
 		if (!target)
 			return;
 
@@ -90,7 +89,6 @@ Button {
 	}
 
 	function sendRelease() {
-		//console.log("sendRelease");
 		if (!target)
 			return;
 
@@ -121,7 +119,6 @@ Button {
 	}
 
 	function sendClick() {
-		//console.log("sendClick");
 		if (!target)
 			return;
 
@@ -165,10 +162,6 @@ Button {
 		if (repeatInterval<=0)
 			sendClick();
 	}
-
-//	onReleased: { // event missing still not fixed
-//		state = "normal";
-//	}
 
 	Component.onCompleted: { // default: minimal size
 		if (width === 0) {

@@ -13,7 +13,6 @@ Item {
 	width: height
 
 	property Item target: parent.target
-//	property var targetHandler: parent.targetHandler
 
 	property bool abEnabled: true
 	property bool xyEnabled: true
@@ -93,10 +92,6 @@ Item {
 		renderStrategy: Canvas.Cooperative
 
 		property color buttonPressColor: Material.rippleColor ?
-//			Qt.rgba(Utils.mix(Material.buttonColor.r, Material.rippleColor.r, Material.rippleColor.a),
-//					Utils.mix(Material.buttonColor.g, Material.rippleColor.g, Material.rippleColor.a),
-//					Utils.mix(Material.buttonColor.b, Material.rippleColor.b, Material.rippleColor.a),
-//					1.) :
 			 Qt.rgba(Material.buttonColor.r * 0.76,
 					 Material.buttonColor.g * 0.76,
 					 Material.buttonColor.b * 0.76,
@@ -154,7 +149,6 @@ Item {
 				ctx.stroke();
 			ctx.closePath();
 
-//			ctx.font = "12pt sans-serif"
 			ctx.font = "%1px sans-serif".arg(buttonRadius);
 			ctx.textAlign = "center";
 			ctx.textBaseline = "middle"; // may higher the text wtf
@@ -173,10 +167,6 @@ Item {
 		renderStrategy: Canvas.Cooperative
 
 		property color buttonPressColor: Material.rippleColor ?
-//			Qt.rgba(Utils.mix(Material.buttonColor.r, Material.rippleColor.r, Material.rippleColor.a),
-//					Utils.mix(Material.buttonColor.g, Material.rippleColor.g, Material.rippleColor.a),
-//					Utils.mix(Material.buttonColor.b, Material.rippleColor.b, Material.rippleColor.a),
-//					1.) :
 			 Qt.rgba(Material.buttonColor.r * 0.76,
 					 Material.buttonColor.g * 0.76,
 					 Material.buttonColor.b * 0.76,
@@ -212,8 +202,6 @@ Item {
 				ctx.fill();
 				ctx.closePath();
 
-				// ctx.shadowBlur = buttonRadius * 0.5;
-				// ctx.shadowBlur = 4;
 				// replaced terrible shadowblur to stroke
 				ctx.strokeStyle = Qt.rgba(0,0,0,.24);
 				ctx.lineWidth = 2;
@@ -238,7 +226,6 @@ Item {
 				ctx.stroke();
 			ctx.closePath();
 
-			// ctx.font = "12pt sans-serif";
 			ctx.font = "%1px sans-serif".arg(buttonRadius);
 			ctx.textAlign = "center";
 			ctx.textBaseline = "middle";
@@ -250,7 +237,6 @@ Item {
 		}
 	}
 
-//	MouseArea {
 	MultiPointTouchArea {
 		id: mouse
 		anchors.fill: parent
@@ -324,7 +310,6 @@ Item {
 			d.keys = calcKeys(p.x, p.y);
 		}
 
-//		onPositionChanged: {
 		onUpdated: {
 			var p = touchPoints[0];
 			d.keys = calcKeys(p.x, p.y);

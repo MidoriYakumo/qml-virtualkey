@@ -20,7 +20,6 @@ MultiPointTouchArea {
 
 	QtObject {
 		id: d
-//		property bool accumulateDrag: touch.accumulateDrag && touch.simulateDrag
 		property var prevPoints: ({})
 	}
 
@@ -120,9 +119,4 @@ MultiPointTouchArea {
 
 		defer.start();
 	}
-
-//	onCanceled: {
-//	}
-
-	// TODO: add two finger to wheel convertion
 }
